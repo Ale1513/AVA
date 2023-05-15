@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="shortcut icon" href="../img/logotransfer.ico" type="image/x-icon">
+    <title>AVA</title>
+</head>
+<body>
+    <div class="visible" id="logSign">
+        <img src="img/logoSemplice.png" alt="ava" id="logoSemplice"> 
+        <br><br> 
+        <input type="button" value="Login" id="login" onclick="goLogin()">
+        <input type="button" value="SignUp"  id="signUp" onclick="goSignUp()">
+        <br><br><br>
+        <h3>Benvenuto! <br> Effettua il login per accedere ad A.V.A. <br> Se non sei ancora registrato, fallo ora! Poi potrai effettuare il login.</h3>
+    </div>
+
+    <div id="template-Sign" class="hidden">
+        <form id="formSign">
+            <label>Email</label><br><br>
+            <input type="email" name="email" id="email" placeholder="mario.rossi@gmail.com" required> <br><br>
+            <label>Password</label> <br><br>
+            <input type="password" name="psw" id="psw" minlength="8"> <br><br><br>
+            <input type="submit" id="btnSignUp" value="SignUp">
+        </form>
+   </div>
+   <div id="template-log"  class="hidden">
+        <form action="pag_html/ava.html" id="formLog">
+            <label>Email</label><br><br>
+            <input type="email" name="email" id="emailLog" placeholder="   mario.rossi@gmail.com" required> <br><br>
+            <label>Password</label> <br><br>
+            <input type="password" name="psw" id="pswLog" required> <br><br><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        var fSign = document.getElementById("formSign");
+        var fLog = document.getElementById("formLog");
+
+        fSign.addEventListener('submit', function(e) {             
+            e.preventDefault();
+            us = document.getElementById("email").value;
+            p = document.getElementById("psw").value;
+            socket.emit('signUp', us, p);   
+        });
+
+        socket.on('signUp', function(msg) {
+            window.location.reload();
+        });
+
+        fLog.addEventListener('submit', function(e) {             
+            e.preventDefault();
+            us = document.getElementById("emailLog").value;
+            p = document.getElementById("pswLog").value;
+            socket.emit('login', us, p);   
+        });
+
+        socket.on('login', function(msg) {
+            window.location.href = "pag_html/ava.html";
+        });
+    </script>
+    <script src="js/script.js"></script>
+</body>
+</html>
