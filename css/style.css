@@ -258,3 +258,6 @@ input[type=submit]:hover{
     width: 20%;
 }
 
+#map{ 
+    height: 500px; 
+}

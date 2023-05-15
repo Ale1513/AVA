@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <link rel="shortcut icon" href="../img/logotransfer.ico" type="image/x-icon">
     <title>AVA</title>
 </head>
@@ -22,7 +24,6 @@
             </div>
         </div> 
     </div> 
-<div>  
     <!-- Modal content -->
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -30,9 +31,7 @@
           <input type="button" value="Conferma" id="confermaLogout" onclick="logoutUser()">
           <input type="button" value="Annulla" id="annullaLogout" onclick="closeModal()">
         </div>
-      
-      </div>
-</div>
+    </div>
     <div id="content">
         <img src="../img/logoSemplice.png" alt="ava" id="logo" ><br><br>
         <p></p>
@@ -40,8 +39,77 @@
             <input type="text" name="txtUtente" id="txtUtente" >
             <input type="button" value="Invia" id="btnUtente" onclick="onSound()">
         </div>
-        
     </div>
+    <div id="map"></div>
+    <script>
+        var nTocchi=0;
+        //------------- cerca ristoranti nelle vicinanze
+        function onSound(){
+        if (nTocchi%2==0) 
+        {
+            var tag = '';
+
+            if(document.getElementById("txtUtente").value.includes("ristoranti")){
+            tag='ristoranti';
+            }
+            if(document.getElementById("txtUtente").value.includes("alberghi")){
+            tag='alberghi';
+            }
+            if(document.getElementById("txtUtente").value.includes("ospedali")){
+            tag='ospedali';
+            }
+            document.getElementById("logo").src="../img/logoSound.gif";
+            document.getElementById("txtUtente").style.display="none";
+            document.getElementById("btnUtente").value = "Stop";
+
+            if(document.getElementById("txtUtente").value.includes(`cerca ${tag} nelle vicinanze`)){
+                
+                var map = L.map('map').setView([44.8015, 10.3279], 13);
+
+// Aggiunge un tile layer (una mappa di base) alla mappa
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+    maxZoom: 18,
+}).addTo(map);
+
+// Crea un layer group per i ristoranti
+var restaurantsLayer = L.layerGroup().addTo(map);
+
+// Otteniamo la posizione corrente dell'utente
+navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+
+    // Costruiamo l'URL per cercare i ristoranti vicini alle coordinate ottenute
+    var ristorantiUrl = "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=restaurant](around:1000," + lat + "," + lon + ");out;";
+
+    // Eseguiamo la richiesta per ottenere i ristoranti
+    fetch(ristorantiUrl)
+    .then(response => response.json())
+    .then(data => {
+        // Aggiungiamo i marker sulla mappa per ogni ristorante trovato
+        for (var i = 0; i < data.elements.length; i++) {
+        var ristorante = data.elements[i];
+        var marker = L.marker([ristorante.lat, ristorante.lon]).addTo(map);
+        }
+    })
+}, function(error) {
+    console.log("Errore durante la geolocalizzazione: ", error);
+});
+            }
+
+            document.getElementById("txtUtente").value='';
+            nTocchi++;
+        }
+        else
+        {
+            document.getElementById("logo").src="../img/logoSemplice.png";
+            document.getElementById("txtUtente").style.display="initial";
+            document.getElementById("btnUtente").value = "Invia";
+            nTocchi--;
+        }
+        }
+    </script>
     <script src="../js/script.js"></script>
 </body>
 </html>

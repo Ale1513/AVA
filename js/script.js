@@ -51,29 +51,10 @@ inputForm.onsubmit = (event) => {
   synth.speak(utterThis);
 
   inputTxt.blur();
-};*/
+};
+['restaurant', 'hotel', 'hospital', 'bus_station', 'bank', 'pharmacy']*/
 
 var nTocchi=0;
-
-//-------------
-function onSound(){
-  if (nTocchi%2==0) 
-  {
-    document.getElementById("logo").src="../img/logoSound.gif";
-    document.getElementById("txtUtente").value='';
-    document.getElementById("txtUtente").style.display="none";
-    document.getElementById("btnUtente").value = "Stop";
-    
-    nTocchi++;
-  }
-  else
-  {
-    document.getElementById("logo").src="../img/logoSemplice.png";
-    document.getElementById("txtUtente").style.display="initial";
-    document.getElementById("btnUtente").value = "Invia";
-    nTocchi--;
-  }
-}
 
 function goLogin(){
   document.getElementById("logSign").className="hidden";
