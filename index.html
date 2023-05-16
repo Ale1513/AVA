@@ -21,22 +21,24 @@
     <div id="template-Sign" class="hidden">
         <form id="formSign">
             <label>Email</label><br><br>
-            <input type="email" name="email" id="email" placeholder="mario.rossi@gmail.com" required> <br><br>
+            <input type="email" name="email" id="email" class="chekUser" required> <br><br>
             <label>Password</label> <br><br>
-            <input type="password" name="psw" id="psw" minlength="8"> <br><br><br>
+            <input type="password" name="psw" id="psw" class="chekUser" minlength="8"> <br><br><br>
             <input type="submit" id="btnSignUp" value="SignUp">
         </form>
    </div>
    <div id="template-log"  class="hidden">
         <form action="pag_html/ava.html" id="formLog">
             <label>Email</label><br><br>
-            <input type="email" name="email" id="emailLog" placeholder="   mario.rossi@gmail.com" required> <br><br>
+            <input type="email" name="email" id="emailLog"  class="chekUser"required> <br><br>
             <label>Password</label> <br><br>
-            <input type="password" name="psw" id="pswLog" required> <br><br><br>
+            <input type="password" name="psw" id="pswLog" class="chekUser" required> <br><br>
+            <p id="errorLog" class="hidden">Email o Password errati</p> 
             <input type="submit" value="Login">
         </form>
+        
     </div>
-    <script src=""></script>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
@@ -63,6 +65,12 @@
 
         socket.on('login', function(msg) {
             window.location.href = "pag_html/ava.html";
+        });
+        socket.on('loginErrore', function(msg) {
+            document.getElementById("template-log").style.backgroundColor="tomato";
+            document.getElementById("errorLog").className="visible";
+            
+
         });
     </script>
     <script src="js/script.js"></script>
