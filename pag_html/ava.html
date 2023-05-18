@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
     <link rel="shortcut icon" href="../img/logotransfer.ico" type="image/x-icon">
     <title>AVA</title>
@@ -36,14 +37,22 @@
     </div>
     <div id="content">
         <img src="../img/logoSemplice.png" alt="ava" id="logo" ><br><br>
-        <p></p>
+        <div id="contentAnswer" >
+            <p id="answer"></p>
+        </div><br>
         <div id="testoUtente">
             <input type="text" name="txtUtente" id="txtUtente" >
             <input type="button" value="Invia" id="btnUtente" onclick="onSound()">
         </div>
     </div>
-    <p id="answer"></p>
-    <div id="map"></div>
+    <!-- Modal content 
+    <div id="myModal2" class="modal2">
+        <div class="modal-content2">
+            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+          <div id="map"></div>
+        </div>
+    </div>-->
+   
     <script src="../socket.io/socket.io.js"></script>
     <script src="../js/script.js"></script>
 </body>

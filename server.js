@@ -38,6 +38,7 @@ io.on('connection', (socket) => {
         socket.emit('login',null,null);
       }
       else{
+        socket.emit('loginErrore',null,null);
         console.log("Errore");
       }
     })  

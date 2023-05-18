@@ -16,3 +16,10 @@ https://www.aranzulla.it/come-creare-un-sito-web-gratis-5858.html#chapter1
 LOGIN: database     login e signup
 ava: utente scrive/parla, ava parla e scrive 
 
+TODO 
+- frasi
+- data promemoria
+- responsive
+- JSON
+- alttre funzioni
+

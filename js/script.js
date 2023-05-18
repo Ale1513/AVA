@@ -62,9 +62,25 @@ console.log(username);
 console.log(password);*/
 
 //------------- cerca ristoranti nelle vicinanze
+function answer(e){
+  var answers = document.getElementById('answer');
+
+    var typewriter = new Typewriter(answers, {
+      loop: false
+    });
+    typewriter.typeString(e)
+      .pauseFor(10)
+      .start();
+    document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";
+  }
+  
+
+
+
 function onSound(){
   if (nTocchi%2==0) 
   {
+    //----------------------------CERCA SERVIZI-------------------------------------
       var tag = '';
       var tag_amenity = '';
       if(document.getElementById("txtUtente").value.includes("ristoranti")){
@@ -82,7 +98,8 @@ function onSound(){
       document.getElementById("logo").src="../img/logoSound.gif";
       document.getElementById("txtUtente").style.display="none";
       document.getElementById("btnUtente").value = "Stop";
-      if(document.getElementById("txtUtente").value.includes(`cerca ${tag} nelle vicinanze`)){
+
+      if(document.getElementById("txtUtente").value.includes(`cerca nelle vicinanze: ${tag} `)){
           if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
               map = L.map('map').setView([44.8015, 10.3279], 13);
               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -111,17 +128,46 @@ function onSound(){
               console.log("Errore durante la geolocalizzazione: ", error);
           });
       }
-  //-------------------------------------------------------------------------
-      if(document.getElementById("txtUtente").value.includes('promemoria')){
+      
+  //----------------------------PROMEMORIA---------------------------------------------
+      if(document.getElementById("txtUtente").value.includes('promemoria:')){
         var socket = io();
-
+        
         let testo = document.getElementById("txtUtente").value;
         socket.emit('newPromemoria', testo);   
 
         socket.on('newPromemoria', function() {
-          document.getElementById("answer").innerText = "Promemoria inserito correttamente";
+         
+          let stringa= "Promemoria inserito correttamente";
+          
+          answer(stringa);
+         
+       
         });
       }
+
+      //--------------------BARZELLETTE------------------------------------
+      if(document.getElementById("txtUtente").value.includes("barzelletta")){
+        let xhr = new XMLHttpRequest(); // creare un oggetto XMLHttpRequest
+        xhr.open('GET', 'https://api-barzellette.vercel.app/api/barzellette'); // impostare la richiesta GET all'endpoint specificato
+        xhr.onload = function() { // quando i dati sono stati caricati correttamente
+            if (xhr.status === 200) { // se lo stato della risposta è OK
+                let dati = JSON.parse(xhr.responseText); // converte i dati JSON in un oggetto JavaScript
+                console.log(dati); // visualizza i dati in console
+                let random = Math.floor(Math.random() * dati.length);
+                answer(dati[random].frase);
+            } 
+            else {
+                console.log('Errore nella richiesta'); // visualizza un messaggio di errore
+            }
+        };
+        xhr.send();
+      }
+      else{
+        answer("Spiacente, credo di non aver capito bene. cuglion")
+      }
+
+      //------------------------------------------------------------------
 
       document.getElementById("txtUtente").value='';
       nTocchi++;
@@ -134,6 +180,10 @@ function onSound(){
       if (map) {
           map.remove();
       }
+
+
+      document.getElementById("contentAnswer").style.backgroundColor="white";
+      document.getElementById("answer").innerText=" ";
       document.getElementById("txtUtente").style.display="initial";
       document.getElementById("btnUtente").value = "Invia";
       nTocchi--;
