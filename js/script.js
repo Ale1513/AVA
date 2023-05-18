@@ -72,7 +72,7 @@ function answer(e){
     var typewriter = new Typewriter(answers, {
       loop: false,
       delay: 1,
-      typeSpeed: 1,
+      typeSpeed: 10,
     });
     typewriter.typeString(e)
       .pauseFor(1)
@@ -82,7 +82,11 @@ function answer(e){
 
 function onSound(){
   if (nTocchi%2==0) 
-  {
+  {   
+    document.getElementById("logo").src="../img/logoSound.gif";
+      document.getElementById("txtUtente").style.display="none";
+      document.getElementById("btnUtente").value = "Stop";
+
     //----------------------------CERCA SERVIZI-------------------------------------
       var tag = '';
       var tag_amenity = '';
@@ -98,10 +102,7 @@ function onSound(){
           tag = 'ospedali';
           tag_amenity = 'hospital';
       }
-      document.getElementById("logo").src="../img/logoSound.gif";
-      document.getElementById("txtUtente").style.display="none";
-      document.getElementById("btnUtente").value = "Stop";
-
+      
       if(document.getElementById("txtUtente").value.toLowerCase().includes(`cerca nelle vicinanze: ${tag} `)){
           if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
               map = L.map('map').setView([44.8015, 10.3279], 13);
@@ -133,7 +134,8 @@ function onSound(){
       }
       
   //----------------------------PROMEMORIA---------------------------------------------
-      if(document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')){
+      let txtProm =document.getElementById("txtUtente").value;
+      if(txtProm.toLowerCase().includes('promemoria:')){
         var socket = io();
         
         let testo = document.getElementById("txtUtente").value;
@@ -144,17 +146,19 @@ function onSound(){
           let stringa= "Promemoria inserito correttamente";
           
           answer(stringa);
-
+        
         });
       }
       //------------------------CADEL GO-------------------------------------
-      if(document.getElementById("txtUtente").value.toLowerCase().includes('cadel')){
+      let txtCadel =document.getElementById("txtUtente").value;
+      if(txtCadel.toLowerCase().includes('cadel')){
           let stringa= "CADEL EVANS - IL MIGLIOR CICLISTA DEL MONDO!";
           answer(stringa);
       }
     
       //-----------------------SALUTO--------------------------------------
-      if(document.getElementById("txtUtente").value.toLowerCase().includes('ciao')){
+      let txtCiao =document.getElementById("txtUtente").value;
+      if(txtCiao.toLowerCase().includes('ciao')){
         let stringa = "";
         const currentHour = new Date().getHours();
 
@@ -168,10 +172,12 @@ function onSound(){
           stringa = 'Buonasera. Come posso esserti utile?';
         }
         answer(stringa);
+      
       }
 
       //--------------------BARZELLETTE------------------------------------
-      if(document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette")){
+      let txtBarz =document.getElementById("txtUtente").value;
+      if(txtBarz.toLowerCase().includes("barzelletta") || txtBarz.includes("barzellette")){
         let xhr = new XMLHttpRequest(); // creare un oggetto XMLHttpRequest
         xhr.open('GET', 'https://api-barzellette.vercel.app/api/barzellette'); // impostare la richiesta GET all'endpoint specificato
         xhr.onload = function() { // quando i dati sono stati caricati correttamente
@@ -187,12 +193,11 @@ function onSound(){
         };
         xhr.send();
       }
-      else{
-        answer("Spiacente, credo di non aver capito bene. cuglion")
-      }
+     
 
       //----------------------BREAKING NEWS--------------------------------------------
-      if(document.getElementById("txtUtente").value.toLowerCase().includes("notizie")){
+      let txtNot =document.getElementById("txtUtente").value;
+      if(txtNot.toLowerCase().includes("notizie")){
         let apiKey = "fdbea0c447134ad789845af9496a997a";
         const url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
         let xhr = new XMLHttpRequest(); // creare un oggetto XMLHttpRequest
@@ -219,7 +224,7 @@ function onSound(){
         xhr.send();
       }
       else{
-        answer("Spiacente, credo di non aver capito bene. cuglion")
+        answer("Spiacente, credo di non aver capito bene. ")
       }
 
       document.getElementById("txtUtente").value='';
@@ -242,7 +247,7 @@ function onSound(){
   }
 }
 
-function chiSono(){
+/*function chiSono(){
   let answers = document.getElementById('answer');
 
   var typewriter = new Typewriter(answers, {
@@ -255,7 +260,7 @@ function chiSono(){
     .pauseFor(100)
     .start();
   document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";    
-}
+}*/
 
 function caricaProm(){
   var socket = io();

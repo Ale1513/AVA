@@ -19,8 +19,8 @@
             <a href="ideas.html"  class="item" id="ideas">Frasi</a>
             <a href="about.html" class="item" id="about">About</a>
             <a href="promemoria.html" class="item" id="prom">Promemoria</a>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-				<i class="fa fa-bars"></i>
+            <!--<a href="javascript:void(0);" class="icon" onclick="myFunction()">
+			 	<i class="fa fa-bars"></i>-->
         </div>
         <div class="item2" id="user" onclick="openLogout()">
             <!-- <h1 id="letteraUser" value="1">A</h1>-->
@@ -40,13 +40,14 @@
     </div>
     <div id="content">
         <img src="../img/logoSemplice.png" alt="ava" id="logo" ><br><br>
+        <div id="contentAnswer" >
+            <p id="answer"></p>
+        </div><br>
         <div id="testoUtente">
             <input type="text" name="txtUtente" id="txtUtente" >
             <input type="button" value="Invia" id="btnUtente" onclick="onSound()">
         </div><br>
-        <div id="contentAnswer" >
-            <p id="answer"></p>
-        </div>
+        
     </div>
     <!-- Modal content 
     <div id="myModal2" class="modal2">

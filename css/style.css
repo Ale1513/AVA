@@ -246,7 +246,7 @@ input[type=submit]:hover{
 /*-------------------------------------------------------------*/
 
 #contentAnswer{
-    width: 25%; 
+    width:max-content; 
     background-color: white;
     margin: 0 auto;
     padding: 1px;
@@ -254,8 +254,8 @@ input[type=submit]:hover{
 }
 #answer{
     margin: 2px;
-    word-wrap: break-word;
     font-size: large;
+    text-decoration: none;
 }
 
 /*------------------------------MODALE----------------------------------*/
@@ -307,7 +307,7 @@ input[type=submit]:hover{
       text-align: left;
     }
     body {
-      background-color: aliceblue;
+      background-color: white;
     }
     h3{
         width: 50%;
