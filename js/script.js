@@ -56,10 +56,7 @@ inputForm.onsubmit = (event) => {
 
 var nTocchi=0;        
 var map;
-/*var username = document.getElementById("emailLog").value;
-var password = document.getElementById("pswLog").value;
-console.log(username);
-console.log(password);*/
+
 
 //------------- cerca ristoranti nelle vicinanze
 function answer(e){
