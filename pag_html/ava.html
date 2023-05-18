@@ -8,16 +8,19 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
     <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <link rel="shortcut icon" href="../img/logotransfer.ico" type="image/x-icon">
     <title>AVA</title>
 </head>
-<body>
+<body onload="chiSono()">
     <div id="barra_menu">
-        <div id="menu">
+        <div id="menu"  class="mymenu">
             <a href="ava.html" class="item" id="home">Home</a>
             <a href="ideas.html"  class="item" id="ideas">Frasi</a>
             <a href="about.html" class="item" id="about">About</a>
             <a href="promemoria.html" class="item" id="prom">Promemoria</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+				<i class="fa fa-bars"></i>
         </div>
         <div class="item2" id="user" onclick="openLogout()">
             <!-- <h1 id="letteraUser" value="1">A</h1>-->
@@ -37,12 +40,12 @@
     </div>
     <div id="content">
         <img src="../img/logoSemplice.png" alt="ava" id="logo" ><br><br>
-        <div id="contentAnswer" >
-            <p id="answer"></p>
-        </div><br>
         <div id="testoUtente">
             <input type="text" name="txtUtente" id="txtUtente" >
             <input type="button" value="Invia" id="btnUtente" onclick="onSound()">
+        </div><br>
+        <div id="contentAnswer" >
+            <p id="answer"></p>
         </div>
     </div>
     <!-- Modal content 

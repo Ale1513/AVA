@@ -57,22 +57,28 @@ inputForm.onsubmit = (event) => {
 var nTocchi=0;        
 var map;
 
-
+function myFunction() {
+  var x = document.getElementById("menu");
+  if (x.className === "mymenu") {
+    x.className += " responsive";
+  } else {
+    x.className = "mymenu";
+  }
+}
 //------------- cerca ristoranti nelle vicinanze
 function answer(e){
   var answers = document.getElementById('answer');
 
     var typewriter = new Typewriter(answers, {
-      loop: false
+      loop: false,
+      delay: 1,
+      typeSpeed: 1,
     });
     typewriter.typeString(e)
-      .pauseFor(10)
+      .pauseFor(1)
       .start();
     document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";
   }
-  
-
-
 
 function onSound(){
   if (nTocchi%2==0) 
@@ -96,7 +102,7 @@ function onSound(){
       document.getElementById("txtUtente").style.display="none";
       document.getElementById("btnUtente").value = "Stop";
 
-      if(document.getElementById("txtUtente").value.includes(`cerca nelle vicinanze: ${tag} `)){
+      if(document.getElementById("txtUtente").value.toLowerCase().includes(`cerca nelle vicinanze: ${tag} `)){
           if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
               map = L.map('map').setView([44.8015, 10.3279], 13);
               L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -127,7 +133,7 @@ function onSound(){
       }
       
   //----------------------------PROMEMORIA---------------------------------------------
-      if(document.getElementById("txtUtente").value.includes('promemoria:')){
+      if(document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')){
         var socket = io();
         
         let testo = document.getElementById("txtUtente").value;
@@ -138,13 +144,34 @@ function onSound(){
           let stringa= "Promemoria inserito correttamente";
           
           answer(stringa);
-         
-       
+
         });
+      }
+      //------------------------CADEL GO-------------------------------------
+      if(document.getElementById("txtUtente").value.toLowerCase().includes('cadel')){
+          let stringa= "CADEL EVANS - IL MIGLIOR CICLISTA DEL MONDO!";
+          answer(stringa);
+      }
+    
+      //-----------------------SALUTO--------------------------------------
+      if(document.getElementById("txtUtente").value.toLowerCase().includes('ciao')){
+        let stringa = "";
+        const currentHour = new Date().getHours();
+
+        if (currentHour < 13) {
+          stringa = "Buongiorno! Come posso esserti utile?"; 
+        } 
+        else if (currentHour < 18) {
+          stringa = 'Buon pomeriggio. Come posso esserti utile?';
+        } 
+        else {
+          stringa = 'Buonasera. Come posso esserti utile?';
+        }
+        answer(stringa);
       }
 
       //--------------------BARZELLETTE------------------------------------
-      if(document.getElementById("txtUtente").value.includes("barzelletta")){
+      if(document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette")){
         let xhr = new XMLHttpRequest(); // creare un oggetto XMLHttpRequest
         xhr.open('GET', 'https://api-barzellette.vercel.app/api/barzellette'); // impostare la richiesta GET all'endpoint specificato
         xhr.onload = function() { // quando i dati sono stati caricati correttamente
@@ -164,11 +191,39 @@ function onSound(){
         answer("Spiacente, credo di non aver capito bene. cuglion")
       }
 
-      //------------------------------------------------------------------
+      //----------------------BREAKING NEWS--------------------------------------------
+      if(document.getElementById("txtUtente").value.toLowerCase().includes("notizie")){
+        let apiKey = "fdbea0c447134ad789845af9496a997a";
+        const url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
+        let xhr = new XMLHttpRequest(); // creare un oggetto XMLHttpRequest
+        xhr.open('GET', url); // impostare la richiesta GET all'endpoint specificato
+        xhr.onload = function() { // quando i dati sono stati caricati correttamente
+            if (xhr.status === 200) { // se lo stato della risposta è OK
+                let dati = JSON.parse(xhr.responseText); // converte i dati JSON in un oggetto JavaScript
+                console.log(dati); // visualizza i dati in console
+                const articles = dati.articles;
+                let str = '';
+                const latestArticles = articles.slice(0, 5);
+                latestArticles.forEach(article => {
+                  str += article.title;
+                  str += '<br>';
+                  str += article.url;
+                  str += '<br><br>';
+                });
+                answer(str);
+            } 
+            else {
+                console.log('Errore nella richiesta'); // visualizza un messaggio di errore
+            }
+        };
+        xhr.send();
+      }
+      else{
+        answer("Spiacente, credo di non aver capito bene. cuglion")
+      }
 
       document.getElementById("txtUtente").value='';
       nTocchi++;
-    
   }
 
   else
@@ -185,6 +240,21 @@ function onSound(){
       document.getElementById("btnUtente").value = "Invia";
       nTocchi--;
   }
+}
+
+function chiSono(){
+  let answers = document.getElementById('answer');
+
+  var typewriter = new Typewriter(answers, {
+    loop: true,
+    typeSpeed: 10,
+    delay: 50,
+    deleteSpeed: 10
+  });
+  typewriter.typeString("Ciao, sono Ava (AVA Virtual Assistant) e sono un'assistente virtuale. I miei creatori sono due ragazzi: Alessia Sirianni e Edoardo Zambernardi. Nonostante al momento io possa svolgere solo alcune funzionalità, sono costantemente aggiornata per migliorare le mie capacità e fornirti un'esperienza sempre più completa. Spero di esserti utile e ti ringrazio  per aver scelto di interagire con me e per la tua pazienza mentre mi miglioro costantemente.")
+    .pauseFor(100)
+    .start();
+  document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";    
 }
 
 function caricaProm(){

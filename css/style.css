@@ -12,6 +12,14 @@ body{
 }
 
  /*--------------HOME---------------*/
+
+ #menu .icon {
+    display: none;
+  }
+
+
+
+ /*----*/
 #barra_menu{
     background-color: #1C008D;
     width: 100%;
@@ -238,7 +246,7 @@ input[type=submit]:hover{
 /*-------------------------------------------------------------*/
 
 #contentAnswer{
-    width: max-content;
+    width: 25%; 
     background-color: white;
     margin: 0 auto;
     padding: 1px;
@@ -246,6 +254,7 @@ input[type=submit]:hover{
 }
 #answer{
     margin: 2px;
+    word-wrap: break-word;
     font-size: large;
 }
 
@@ -278,7 +287,25 @@ input[type=submit]:hover{
     padding:3%
 }
 /*----------------------------------------------------------------------*/
-@media only screen and (max-width: 780px) {
+
+@media screen and (max-width: 780px) {
+    #menu a {display: none;}
+    #menu a.icon {
+      float: left;
+      display: block;
+    }
+
+    #menu.responsive {position: relative;}
+    #menu.responsive .icon {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    #menu.responsive a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
     body {
       background-color: aliceblue;
     }
