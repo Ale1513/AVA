@@ -122,7 +122,8 @@ function answer(e){
                   var marker = L.marker([servizio.lat, servizio.lon]).addTo(map);
                   marker.bindPopup(servizio.tags.name);
                 }
-              })
+              });            openBigModale2();
+
           }, function(error) {
             console.log("Errore durante la geolocalizzazione: ", error);
           });
@@ -269,7 +270,6 @@ function openLogout(){
   }
   
 }
-
 function openModale(){
   document.getElementById("myModal").style.display = "block";
 }
@@ -290,6 +290,7 @@ function openBigModale(e){
   document.getElementById("testo").appendChild(para);  
 }
 function openBigModale2(){
+  document.getElementById("map").style.display = "block";
   answer("Ecco cosa ho trovato...");
   setTimeout(function(){ document.getElementById("myModal2").style.display = "block";}, 3000);
   

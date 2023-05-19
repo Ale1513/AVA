@@ -2,6 +2,7 @@ body{
     margin:0;
     background-color: white;
     cursor: pointer;
+    overflow-y: auto;
 }
 
 .hidden{
@@ -12,6 +13,11 @@ body{
 }
 
  /*--------------HOME---------------*/ /*Cose da fare nel responsive: controllo user e logout - hamburgher menu - logo più giù*/
+ #myIcon{
+    color: white;
+    font-size: 200%;
+ }
+
 
  #menu .icon {
     display: none;
@@ -29,7 +35,7 @@ body{
     top: 0px;
 }
 #menu{
-    margin-top: 1.5%;
+    margin-top: -2%;
     width: 80%;
 
 }
@@ -129,8 +135,8 @@ body{
    text-align: center;
    border-radius: 10px;
    position: relative;
-   bottom: 0%;
-   right: 2.5%;
+   bottom: 3%;
+   right: 55%;
   }
   
 #logout{
@@ -238,10 +244,11 @@ input[type=submit]:hover{
 }
 
 
-/*#map{ 
-    height: 500px; 
+#map{ 
+    height: 200%; 
     background-color: white;
-}*/
+    display: none;
+}
 
 /*-------------------------------------------------------------*/
 
@@ -307,27 +314,53 @@ input[type=submit]:hover{
     cursor: pointer;
   }
 /*----------------------------------------------------------------------*/
+@media screen and (max-width: 1100px) {
+    
+#dropup-content {
+    z-index: 0;
+    color: black;
+    background-color: white;
+    width:100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    position: relative;
+    bottom: 3%;
+    right: 100%;
+   }
+   #logo{
+    margin-left: auto;
+    margin-right: auto;
+    margin: 0 auto;
+    margin-top: 13%;
+    text-align: center;
+    width: 28%;
+    cursor: grab;
+}
 
-@media screen and (max-width: 780px) {
+    }
+  
+/*----------------------------------------------------------------------*/
+
+@media screen and (max-width: 900px) {
     #menu a {display: none;}
     #menu a.icon {
       float: left;
       display: block;
     }
-
-    #menu.responsive {position: relative;}
+    #menu.responsive {
+        background-color: #1C008D;
+    }
     #menu.responsive .icon {
       position: absolute;
-      right: 0;
-      top: 0;
+      left: 2;
+      bottom: 2;
     }
     #menu.responsive a {
       float: none;
       display: block;
       text-align: left;
-    }
-    body {
-      background-color: white;
+
     }
     h3{
         width: 50%;
@@ -386,53 +419,39 @@ input[type=submit]:hover{
 
 
     /*------------Home----------*/
-
-    #barra_menu{
-        background-color: #1C008D;
-        width: 100%;
-        position: absolute;
-        height: 10%;
-        left: 0px;
-        top: 0px;
-    }
     #menu{
-        margin-top: 1.5%;
-        width: 80%;  
+        margin-top: 3%;
+        width: 30%;  
+        border-radius: 15px;
     }
 
     .item{
         text-decoration: none;
-        font-size: 40px;
+        font-size: 30px;
         color: white;
-        text-align: center;
-        margin-right: 20px;
+        text-align: left;
     }
-
     .item:hover{
        text-shadow: 2px 2px 4px #EDFFFB;
     }
     
     #ideas, #about, #prom{
-        margin-left: 4%;
+        margin-left: 0%;
     }
-    #logo{
-       
-        margin-left: auto;
-        margin-right: auto;
+    #logo{     
         margin: 0 auto;
-        margin-top: 25%;
+        margin-top: 10%;
         text-align: center;
         width: 28%;
         cursor: grab;
     }
     #content{
-        margin-top:10%;
+        margin-top:12%;
     }
     .contentTesto{
         margin: 0 auto;
-        margin-top:10%;
+        margin-top:30%;
         margin-left: 2%;
-    
         font-size: 20px;
         text-align: center;
        
@@ -441,6 +460,7 @@ input[type=submit]:hover{
         overflow-y: visible;
         width: 40%;
         margin: 0 auto;
+        margin-top: 30%;
     }
     #testoUtente{
         text-align: center;
@@ -499,7 +519,7 @@ input[type=submit]:hover{
        border-radius: 10px;
        position: relative;
        bottom: 2%;
-       left: 0%;
+       right: 0%;
       }
       
     #logout{
@@ -557,5 +577,272 @@ input[type=submit]:hover{
         height: 20px;
         overflow-y: auto;
         width: 30%;
+    }
+  }
+  /*----------------------------------*/
+
+/*----------------------------------------------------------------------*/
+
+@media screen and (max-width: 400px) {
+    #menu a {display: none;}
+    #menu a.icon {
+      float: left;
+      display: block;
+    }
+    #menu.responsive {
+        background-color: #1C008D;
+        width: 50%;
+    }
+    #menu.responsive .icon {
+      position: absolute;
+      left: 2;
+      bottom: 2;
+    }
+    #menu.responsive a {
+      float: none;
+      display: block;
+      text-align: left;
+
+    }
+    h3{
+        width: 50%;
+        margin: 0 auto;
+    }
+    #logoSemplice{
+        margin-top:  30%;
+
+        width: 35%;
+    }
+    
+    #login, #signUp{  
+        background-color: #1C008D;
+        color:white;
+        font-size: 150%;
+        padding: 1%;
+        text-align: center;
+        border-radius: 10px;
+        width: 25%;
+    }
+    #template-Sign, #template-log{
+        background-color: white;
+        box-shadow: 3px 3px 15px 3px  #1d1d1d;
+        border-radius: 20px;
+        text-align: center;
+        width: 70%;
+        height: min-content;
+        margin: 0 auto;
+        font-size: 25px;
+        margin-top:  35%;
+    }
+    #formLog, #formSign{
+        padding: 8%;
+    }
+    input[type=email], input[type=password]{
+        border-radius: 10px;
+        font-size: 90%;
+        height: 40px;
+    }
+    input[type=submit]{
+        border-radius: 10px;
+        padding: 3%;
+        font-size: 80%;
+        width: 40%;
+        background-color: #1C008D;
+        color:white
+    }
+    input[type=submit]:hover{
+        background-color: #2f00ec;
+    }  
+    #logSign{
+        margin: 0 auto;
+        margin-top:  15%;
+        text-align: center;
+    }  
+    .chekUser{
+        width: 80%;
+    }
+
+
+    /*------------Home----------*/
+
+    #barra_menu{
+        background-color: #1C008D;
+        width: 100%;
+        position: absolute;
+        height: 10%;
+        left: 0px;
+        top: 0px;
+    }
+    #menu{
+        margin-top: 1.5%;
+        width: 80%;  
+    }
+    .item{
+        text-decoration: none;
+        font-size: 30px;
+        color: white;
+        text-align: left;
+    }
+    .item:hover{
+       text-shadow: 2px 2px 4px #EDFFFB;
+    }
+    
+    #ideas, #about, #prom{
+        margin-left: 0%;
+    }
+    #logo{     
+        display: block;
+        margin-left:0  auto;
+        margin-right: 0 auto;
+        margin: 0 auto;
+        margin-top: 40%;
+        width: 45%;
+        cursor: grab;
+    }
+    #content{
+        margin-top:40%;
+    }
+    .contentTesto{
+        margin: 0 auto;
+        margin-top:20%;
+        margin-left: 2%;
+        font-size: 20px;
+        text-align: center;
+       
+    }
+    .contentInterno{
+        overflow-y: visible;
+        width: 60%;
+        margin: 0 auto;
+    }
+    #testoUtente{
+        text-align: center;
+        margin: 0 auto;
+        margin-bottom: 2px;
+    }
+    #btnUtente{
+        z-index: 1;
+        width: 9%;
+        height: max-content;
+        margin: 0 auto;
+        border-radius: 10px;
+        padding: 0.3%;
+        font-size: 25px;
+        background-color: #1C008D;
+        color:white;
+    }
+    #txtUtente{
+        border-radius: 10px;
+        padding: 0.4%;
+        height: 20px;
+        overflow-y: auto;
+        width: 50%;
+    }
+    /*---------------------USER------------------------------*/
+    #imgUser{ 
+        width: 55px;
+        z-index: 2;
+        right: 1.2%;
+        color:black;
+        margin-top: -28%;
+        display: inline-block;
+        position: absolute;
+    }
+    #user:hover{
+        cursor:grab;
+    }
+    #menu, #user {
+        float: left;
+        padding: 20px;
+      }
+    #barra_menu:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+      
+    
+    #dropup-content {
+       z-index: 0;
+       color: black;
+       background-color: white;
+       width:100%;
+       padding: 10px;
+       text-align: center;
+       border-radius: 10px;
+       position: relative;
+       top: -10%;
+       right: -150%;
+      }
+      
+    #logout{
+        z-index: 1;
+        width: min-content;
+        margin: 0 auto;
+        border-radius: 10px;
+        padding: 3%;
+        font-size: 25px;
+        background-color: #1C008D;
+        color:white
+    }
+      
+      
+
+    /*---------bntlog----------*/
+    #confermaLogout, #annullaLogout{
+        background-color: #1C008D;
+        color:white;
+        font-size: 60%;
+        padding: 2%;
+        text-align: center;
+        border-radius: 10px;
+        width: 40%;
+    }
+    /*-------------logo---------------*/
+    #logo{
+        display: block;
+        margin-left:0  auto;
+        margin-right: 0 auto;
+        margin: 0 auto;
+        margin-top: 20%;
+        width: 45%;
+        cursor: grab;
+    }
+    #testoUtente{
+        text-align: center;
+        margin: 0 auto;
+        margin-bottom: 0px;
+    }
+    #btnUtente{
+        z-index: 1;
+        width: 20%;
+        height: max-content;
+        margin: 0 auto;
+        border-radius: 10px;
+        padding: 0.3%;
+        font-size: 15px;
+        background-color: #1C008D;
+        color:white;
+    }
+    #txtUtente{
+        border-radius: 10px;
+        padding: 0.4%;
+        height: 20px;
+        overflow-y: auto;
+        width: 45%;
+    }
+    #contentAnswer{
+        width:max-content; 
+        max-width: 70%;
+        background-color: white;
+        margin: 0 auto;
+        padding: 1px;
+        border-radius: 10px;
+    }
+    #answer{
+        margin: 2px;
+        font-size: large;
+        word-wrap: break-word;
+        text-decoration: none;
     }
   }
