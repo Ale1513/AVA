@@ -178,7 +178,11 @@ function answer(e){
             let str = '';
             const latestArticles = articles.slice(0, 5);
             latestArticles.forEach(article => {
+              let a= article.url;
+              console.log(a);
               str += article.title;
+              str += '<br>';
+              str += '<a href=a>Leggi altro..</a>'
               str += '<br><br>';
               str += '<hr>';
               str += '<br><br>';
