@@ -65,10 +65,10 @@ function myFunction() {
     x.className = "mymenu";
   }
 }
-//------------- cerca ristoranti nelle vicinanze
+
+
 function answer(e){
   var answers = document.getElementById('answer');
-
     var typewriter = new Typewriter(answers, {
       loop: false,
       delay: 1,
@@ -80,177 +80,140 @@ function answer(e){
     document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";
   }
 
-function onSound(){
-  if (nTocchi%2==0) 
-  {   
-    document.getElementById("logo").src="../img/logoSound.gif";
-      document.getElementById("txtUtente").style.display="none";
+  function onSound() {
+    if (nTocchi % 2 == 0) {
+      document.getElementById("logo").src = "../img/logoSound.gif";
+      document.getElementById("txtUtente").style.display = "none";
       document.getElementById("btnUtente").value = "Stop";
-
-    //----------------------------CERCA SERVIZI-------------------------------------
-      if(document.getElementById("txtUtente").value.includes("ristoranti") || document.getElementById("txtUtente").value.includes("alberghi") || document.getElementById("txtUtente").value.includes("ospedali")){
-    
+  
+      if (document.getElementById("txtUtente").value.includes("ristoranti") || document.getElementById("txtUtente").value.includes("alberghi") || document.getElementById("txtUtente").value.includes("ospedali")) {
         var tag = '';
         var tag_amenity = '';
-        if(document.getElementById("txtUtente").value.includes("ristoranti")){
-            tag = 'ristoranti';
-            tag_amenity = 'restaurant';
+        if (document.getElementById("txtUtente").value.includes("ristoranti")) {
+          tag = 'ristoranti';
+          tag_amenity = 'restaurant';
         }
-        if(document.getElementById("txtUtente").value.includes("alberghi")){
-            tag = 'alberghi';
-            tag_amenity = 'hotel';
+        if (document.getElementById("txtUtente").value.includes("alberghi")) {
+          tag = 'alberghi';
+          tag_amenity = 'hotel';
         }
-        if(document.getElementById("txtUtente").value.includes("ospedali")){
-            tag = 'ospedali';
-            tag_amenity = 'hospital';
-      }}
-      
-      if(document.getElementById("txtUtente").value.toLowerCase().includes(`cerca nelle vicinanze: ${tag} `)){
+        if (document.getElementById("txtUtente").value.includes("ospedali")) {
+          tag = 'ospedali';
+          tag_amenity = 'hospital';
+        }
+  
+        if (document.getElementById("txtUtente").value.toLowerCase().includes(`cerca nelle vicinanze: ${tag}`)) {
           if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
-              map = L.map('map').setView([44.8015, 10.3279], 13);
-              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-                  maxZoom: 18,
-              }).addTo(map);
+            map = L.map('map').setView([44.8015, 10.3279], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+              maxZoom: 18,
+            }).addTo(map);
           }
-          // Otteniamo la posizione corrente dell'utente
           navigator.geolocation.getCurrentPosition(function(position) {
-              var lat = position.coords.latitude;
-              var lon = position.coords.longitude;
-              // Costruiamo l'URL per cercare i ristoranti vicini alle coordinate ottenute
-              var serviziUrl = "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=" + tag_amenity + "](around:10000," + lat + "," + lon + ");out;";
-              // Eseguiamo la richiesta per ottenere i ristoranti
-              fetch(serviziUrl)
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            var serviziUrl = "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=" + tag_amenity + "](around:10000," + lat + "," + lon + ");out;";
+            fetch(serviziUrl)
               .then(response => response.json())
               .then(data => {
-                  // Aggiungiamo i marker sulla mappa per ogni ristorante trovato
-                  for (var i = 0; i < data.elements.length; i++) {
+                for (var i = 0; i < data.elements.length; i++) {
                   var servizio = data.elements[i];
                   var marker = L.marker([servizio.lat, servizio.lon]).addTo(map);
                   marker.bindPopup(servizio.tags.name);
-                  }
+                }
               })
           }, function(error) {
-              console.log("Errore durante la geolocalizzazione: ", error);
+            console.log("Errore durante la geolocalizzazione: ", error);
           });
-      }
-      
-  //----------------------------PROMEMORIA---------------------------------------------
-      let txtProm =document.getElementById("txtUtente").value;
-      if(txtProm.toLowerCase().includes('promemoria:')){
-        var socket = io();
-        
-        let testo = document.getElementById("txtUtente").value;
-        socket.emit('newPromemoria', testo);   
 
+        }
+      } else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')) {
+        var socket = io();
+        let testo = document.getElementById("txtUtente").value;
+        socket.emit('newPromemoria', testo);
         socket.on('newPromemoria', function() {
-         
-          let stringa= "Promemoria inserito correttamente";
-          
+          let stringa = "Promemoria inserito correttamente";
           answer(stringa);
-        
         });
-      }
-      //------------------------CADEL GO-------------------------------------
-      let txtCadel =document.getElementById("txtUtente").value;
-      if(txtCadel.toLowerCase().includes('cadel')){
-          let stringa= "CADEL EVANS - IL MIGLIOR CICLISTA DEL MONDO!";
-          answer(stringa);
-      }
-    
-      //-----------------------SALUTO--------------------------------------
-      let txtCiao =document.getElementById("txtUtente").value;
-      if(txtCiao.toLowerCase().includes('ciao')){
+      } else if (document.getElementById("txtUtente").value.toLowerCase().includes('cadel')) {
+        let stringa = "CADEL EVANS - IL MIGLIOR CICLISTA DEL MONDO!";
+        answer(stringa);
+      } else if (document.getElementById("txtUtente").value.toLowerCase().includes('ciao')) {
         let stringa = "";
         const currentHour = new Date().getHours();
-
         if (currentHour < 13) {
-          stringa = "Buongiorno! Come posso esserti utile?"; 
-        } 
-        else if (currentHour < 18) {
+          stringa = "Buongiorno! Come posso esserti utile?";
+        } else if (currentHour < 18) {
           stringa = 'Buon pomeriggio. Come posso esserti utile?';
-        } 
-        else {
+        } else {
           stringa = 'Buonasera. Come posso esserti utile?';
         }
         answer(stringa);
-      
-      }
-
-      //--------------------BARZELLETTE------------------------------------
-      let txtBarz =document.getElementById("txtUtente").value;
-      if(txtBarz.toLowerCase().includes("barzelletta") || txtBarz.includes("barzellette")){
-        let xhr = new XMLHttpRequest(); // creare un oggetto XMLHttpRequest
-        xhr.open('GET', 'https://api-barzellette.vercel.app/api/barzellette'); // impostare la richiesta GET all'endpoint specificato
-        xhr.onload = function() { // quando i dati sono stati caricati correttamente
-            if (xhr.status === 200) { // se lo stato della risposta è OK
-                let dati = JSON.parse(xhr.responseText); // converte i dati JSON in un oggetto JavaScript
-                console.log(dati); // visualizza i dati in console
-                let random = Math.floor(Math.random() * dati.length);
-                answer(dati[random].frase);
-            } 
-            else {
-                console.log('Errore nella richiesta'); // visualizza un messaggio di errore
-            }
+      } else if (document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette")) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api-barzellette.vercel.app/api/barzellette');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            let dati = JSON.parse(xhr.responseText);
+            console.log(dati);
+            let random = Math.floor(Math.random() * dati.length);
+            answer(dati[random].frase);
+          } else {
+            console.log('Errore nella richiesta');
+          }
         };
         xhr.send();
-      }
-     
-
-      //----------------------BREAKING NEWS--------------------------------------------
-      let txtNot =document.getElementById("txtUtente").value;
-      if(txtNot.toLowerCase().includes("notizie")){
+      } else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie"))) {
         let apiKey = "fdbea0c447134ad789845af9496a997a";
         const url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
-        let xhr = new XMLHttpRequest(); // creare un oggetto XMLHttpRequest
-        xhr.open('GET', url); // impostare la richiesta GET all'endpoint specificato
-        xhr.onload = function() { // quando i dati sono stati caricati correttamente
-            if (xhr.status === 200) { // se lo stato della risposta è OK
-                let dati = JSON.parse(xhr.responseText); // converte i dati JSON in un oggetto JavaScript
-                console.log(dati); // visualizza i dati in console
-                const articles = dati.articles;
-                let str = '';
-                const latestArticles = articles.slice(0, 5);
-                latestArticles.forEach(article => {
-                  str += article.title;
-                  str += '<br>';
-                  str += article.url;
-                  str += '<br><br>';
-                });
-                answer(str);
-            } 
-            else {
-                console.log('Errore nella richiesta'); // visualizza un messaggio di errore
-            }
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            let dati = JSON.parse(xhr.responseText);
+            console.log(dati);
+            const articles = dati.articles;
+            let str = '';
+            const latestArticles = articles.slice(0, 5);
+            latestArticles.forEach(article => {
+              str += article.title;
+              str += '<br><br>';
+              str += '<hr>';
+              str += '<br><br>';
+              //str += article.url;
+              //str += '<br><br>';
+            });
+            openBigModale(str);
+          } else {
+            console.log('Errore nella richiesta');
+          }
         };
         xhr.send();
+      } else {
+        answer("Spiacente, credo di non aver capito bene.");
       }
-
-      else{
-        answer("Spiacente, credo di non aver capito bene. ")
-      }
-
-      document.getElementById("txtUtente").value='';
+  
+      document.getElementById("txtUtente").value = '';
       nTocchi++;
-  }
-
-  else
-  {
-      
+    } else {
       if (map) {
-          map.remove();
+        map.remove();
       }
-
-      document.getElementById("logo").src="../img/logoSemplice.png";
-      document.getElementById("contentAnswer").style.backgroundColor="white";
-      document.getElementById("answer").innerText=" ";
-      document.getElementById("txtUtente").style.display="initial";
+      document.getElementById("logo").src = "../img/logoSemplice.png";
+      document.getElementById("contentAnswer").style.backgroundColor = "white";
+      document.getElementById("answer").innerText = " ";
+      document.getElementById("txtUtente").style.display = "initial";
       document.getElementById("btnUtente").value = "Invia";
       nTocchi--;
+    }
   }
+  
+function chiSono1(){
+  answer("Ciao, sono Ava (AVA Virtual Assistant), cosa posso fare per te?")
 }
 
-/*function chiSono(){
+function chiSono(){
   let answers = document.getElementById('answer');
 
   var typewriter = new Typewriter(answers, {
@@ -263,7 +226,7 @@ function onSound(){
     .pauseFor(100)
     .start();
   document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";    
-}*/
+}
 
 function caricaProm(){
   var socket = io();
@@ -317,4 +280,20 @@ function closeModal(){
 }
 function logoutUser(){
   window.location.href= "../index.html";
+}
+
+function openBigModale(e){
+  answer("Ecco cosa ho trovato...");
+  setTimeout(function(){ document.getElementById("myModal2").style.display = "block";}, 3000);
+  const para = document.createElement("h3");
+  para.innerHTML = e;
+  document.getElementById("testo").appendChild(para);  
+}
+function openBigModale2(){
+  answer("Ecco cosa ho trovato...");
+  setTimeout(function(){ document.getElementById("myModal2").style.display = "block";}, 3000);
+  
+}
+function closeBigModale(){
+  document.getElementById("myModal2").style.display = "none";
 }

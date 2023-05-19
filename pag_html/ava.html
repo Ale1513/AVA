@@ -12,18 +12,17 @@
     <link rel="shortcut icon" href="../img/logotransfer.ico" type="image/x-icon">
     <title>AVA</title>
 </head>
-<body onload="chiSono()">
+<body onload="chiSono1()">
     <div id="barra_menu">
         <div id="menu"  class="mymenu">
             <a href="ava.html" class="item" id="home">Home</a>
             <a href="ideas.html"  class="item" id="ideas">Frasi</a>
             <a href="about.html" class="item" id="about">About</a>
             <a href="promemoria.html" class="item" id="prom">Promemoria</a>
-            <!--<a href="javascript:void(0);" class="icon" onclick="myFunction()">
-			 	<i class="fa fa-bars"></i>-->
+          <a " class="icon" onclick="myFunction()">
+			 	<i class="fa fa-bars"></i>
         </div>
         <div class="item2" id="user" onclick="openLogout()">
-            <!-- <h1 id="letteraUser" value="1">A</h1>-->
             <img src="../img/user.png" alt="user" id="imgUser"><br>
             <div id="dropup-content" class="hidden">
                 <input type="button" value="Logout"  id="logout" class="hidden" onclick="openModale()" >
@@ -49,14 +48,15 @@
         </div><br>
         
     </div>
-    <!-- Modal content 
+    <!-- Modal content -->
     <div id="myModal2" class="modal2">
         <div class="modal-content2">
-            <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-          <div id="map"></div>
+            <span class="close" onclick="closeBigModale()">&times;</span>
+            <div id="testo"></div>
+         
         </div>
-    </div>-->
-   
+    </div>
+    <div id="map"></div>
     <script src="../socket.io/socket.io.js"></script>
     <script src="../js/script.js"></script>
 </body>
