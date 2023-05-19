@@ -88,20 +88,22 @@ function onSound(){
       document.getElementById("btnUtente").value = "Stop";
 
     //----------------------------CERCA SERVIZI-------------------------------------
-      var tag = '';
-      var tag_amenity = '';
-      if(document.getElementById("txtUtente").value.includes("ristoranti")){
-          tag = 'ristoranti';
-          tag_amenity = 'restaurant';
-      }
-      if(document.getElementById("txtUtente").value.includes("alberghi")){
-          tag = 'alberghi';
-          tag_amenity = 'hotel';
-      }
-      if(document.getElementById("txtUtente").value.includes("ospedali")){
-          tag = 'ospedali';
-          tag_amenity = 'hospital';
-      }
+      if(document.getElementById("txtUtente").value.includes("ristoranti") || document.getElementById("txtUtente").value.includes("alberghi") || document.getElementById("txtUtente").value.includes("ospedali")){
+    
+        var tag = '';
+        var tag_amenity = '';
+        if(document.getElementById("txtUtente").value.includes("ristoranti")){
+            tag = 'ristoranti';
+            tag_amenity = 'restaurant';
+        }
+        if(document.getElementById("txtUtente").value.includes("alberghi")){
+            tag = 'alberghi';
+            tag_amenity = 'hotel';
+        }
+        if(document.getElementById("txtUtente").value.includes("ospedali")){
+            tag = 'ospedali';
+            tag_amenity = 'hospital';
+      }}
       
       if(document.getElementById("txtUtente").value.toLowerCase().includes(`cerca nelle vicinanze: ${tag} `)){
           if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
@@ -223,6 +225,7 @@ function onSound(){
         };
         xhr.send();
       }
+
       else{
         answer("Spiacente, credo di non aver capito bene. ")
       }
@@ -233,12 +236,12 @@ function onSound(){
 
   else
   {
-      document.getElementById("logo").src="../img/logoSemplice.png";
+      
       if (map) {
           map.remove();
       }
 
-
+      document.getElementById("logo").src="../img/logoSemplice.png";
       document.getElementById("contentAnswer").style.backgroundColor="white";
       document.getElementById("answer").innerText=" ";
       document.getElementById("txtUtente").style.display="initial";

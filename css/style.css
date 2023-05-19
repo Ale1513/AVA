@@ -11,7 +11,7 @@ body{
     display: block ;
 }
 
- /*--------------HOME---------------*/
+ /*--------------HOME---------------*/ /*Cose da fare nel responsive: controllo user e logout - hamburgher menu - logo più giù*/
 
  #menu .icon {
     display: none;
@@ -100,7 +100,7 @@ body{
 #imgUser{ 
     width: 85px;
     z-index: 2;
-    margin-left: 8%;
+    right: 1.2%;
     color:black;
     margin-top: 0%;
     display: inline-block;
@@ -130,7 +130,7 @@ body{
    border-radius: 10px;
    position: relative;
    bottom: 0%;
-   right: 50px;
+   right: 2.5%;
   }
   
 #logout{
@@ -246,7 +246,7 @@ input[type=submit]:hover{
 /*-------------------------------------------------------------*/
 
 #contentAnswer{
-    width:max-content; 
+    width:30%; 
     background-color: white;
     margin: 0 auto;
     padding: 1px;
@@ -255,6 +255,7 @@ input[type=submit]:hover{
 #answer{
     margin: 2px;
     font-size: large;
+    word-wrap: break-word;
     text-decoration: none;
 }
 
@@ -447,11 +448,11 @@ input[type=submit]:hover{
     }
     /*---------------------USER------------------------------*/
     #imgUser{ 
-        width: 5%;
+        width: 60px;
         z-index: 2;
-        margin-left: 8%;
+        right: 1.2%;
         color:black;
-        margin-top: 0%;
+        margin-top: -0.5%;
         display: inline-block;
         position: absolute;
     }
@@ -478,10 +479,10 @@ input[type=submit]:hover{
        text-align: center;
        border-radius: 10px;
        position: relative;
-       bottom: 0px;
-       right: 50px;
+       bottom: 2%;
+       left: 0%;
       }
-    
+      
     #logout{
         z-index: 1;
         width: min-content;
@@ -492,6 +493,9 @@ input[type=submit]:hover{
         background-color: #1C008D;
         color:white
     }
+      
+      
+
     /*---------bntlog----------*/
     #confermaLogout, #annullaLogout{
         background-color: #1C008D;
