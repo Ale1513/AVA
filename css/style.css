@@ -245,11 +245,13 @@ input[type=submit]:hover{
 
 
 #map{ 
-    height: 200%; 
+    height: 400px; 
     background-color: white;
-    display: none;
+    /*display: none;*/
 }
-
+li{
+    list-style-type: none;
+}
 /*-------------------------------------------------------------*/
 
 #contentAnswer{

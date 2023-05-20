@@ -111,6 +111,9 @@ function answer(e){
             }).addTo(map);
           }
           navigator.geolocation.getCurrentPosition(function(position) {
+              document.getElementById("mapCont").className="visisble";
+  //document.getElementById("map").style.display = "block";
+  answer("Ecco cosa ho trovato...");
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             var serviziUrl = "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=" + tag_amenity + "](around:10000," + lat + "," + lon + ");out;";
@@ -122,14 +125,17 @@ function answer(e){
                   var marker = L.marker([servizio.lat, servizio.lon]).addTo(map);
                   marker.bindPopup(servizio.tags.name);
                 }
-              });            openBigModale2();
+              });           
+               //openBigModale2();
 
           }, function(error) {
             console.log("Errore durante la geolocalizzazione: ", error);
           });
 
         }
-      } else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')) {
+      }
+      
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')) {
         var socket = io();
         let testo = document.getElementById("txtUtente").value;
         socket.emit('newPromemoria', testo);
@@ -137,10 +143,15 @@ function answer(e){
           let stringa = "Promemoria inserito correttamente";
           answer(stringa);
         });
-      } else if (document.getElementById("txtUtente").value.toLowerCase().includes('cadel')) {
+
+      }
+      
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes('cadel')) {
         let stringa = "CADEL EVANS - IL MIGLIOR CICLISTA DEL MONDO!";
         answer(stringa);
-      } else if (document.getElementById("txtUtente").value.toLowerCase().includes('ciao')) {
+      }
+      
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes('ciao')) {
         let stringa = "";
         const currentHour = new Date().getHours();
         if (currentHour < 13) {
@@ -151,7 +162,9 @@ function answer(e){
           stringa = 'Buonasera. Come posso esserti utile?';
         }
         answer(stringa);
-      } else if (document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette")) {
+      } 
+      
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette")) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://api-barzellette.vercel.app/api/barzellette');
         xhr.onload = function() {
@@ -165,7 +178,13 @@ function answer(e){
           }
         };
         xhr.send();
-      } else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie"))) {
+      } 
+      
+      else if((document.getElementById("txtUtente").value.toLowerCase().includes("chi sei?"))|| (document.getElementById("txtUtente").value.toLowerCase().includes("presentati"))){
+        answer("Ciao, sono Ava (AVA Virtual Assistant) e sono un'assistente virtuale. I miei creatori sono due ragazzi: Alessia Sirianni e Edoardo Zambernardi. Nonostante al momento io possa svolgere solo alcune funzionalità, sono costantemente aggiornata per migliorare le mie capacità e fornirti un'esperienza sempre più completa. Spero di esserti utile e ti ringrazio  per aver scelto di interagire con me e per la tua pazienza mentre mi miglioro costantemente.")
+      }
+      
+      else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie"))) {
         let apiKey = "fdbea0c447134ad789845af9496a997a";
         const url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
         let xhr = new XMLHttpRequest();
@@ -182,7 +201,7 @@ function answer(e){
               console.log(a);
               str += article.title;
               str += '<br>';
-              str += '<a href=a>Leggi altro..</a>'
+              str += `<a href=${a}>Leggi altro..</a>`
               str += '<br><br>';
               str += '<hr>';
               str += '<br><br>';
@@ -205,6 +224,7 @@ function answer(e){
       if (map) {
         map.remove();
       }
+      document.getElementById("mapCont").className="hidden";
       document.getElementById("logo").src = "../img/logoSemplice.png";
       document.getElementById("contentAnswer").style.backgroundColor = "white";
       document.getElementById("answer").innerText = " ";
@@ -218,20 +238,7 @@ function chiSono1(){
   answer("Ciao, sono Ava (AVA Virtual Assistant), cosa posso fare per te?")
 }
 
-function chiSono(){
-  let answers = document.getElementById('answer');
 
-  var typewriter = new Typewriter(answers, {
-    loop: true,
-    typeSpeed: 10,
-    delay: 50,
-    deleteSpeed: 10
-  });
-  typewriter.typeString("Ciao, sono Ava (AVA Virtual Assistant) e sono un'assistente virtuale. I miei creatori sono due ragazzi: Alessia Sirianni e Edoardo Zambernardi. Nonostante al momento io possa svolgere solo alcune funzionalità, sono costantemente aggiornata per migliorare le mie capacità e fornirti un'esperienza sempre più completa. Spero di esserti utile e ti ringrazio  per aver scelto di interagire con me e per la tua pazienza mentre mi miglioro costantemente.")
-    .pauseFor(100)
-    .start();
-  document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";    
-}
 
 function caricaProm(){
   var socket = io();
@@ -288,17 +295,19 @@ function logoutUser(){
 
 function openBigModale(e){
   answer("Ecco cosa ho trovato...");
+  document.getElementById("testo").className="visisble";
   setTimeout(function(){ document.getElementById("myModal2").style.display = "block";}, 3000);
   const para = document.createElement("h3");
   para.innerHTML = e;
   document.getElementById("testo").appendChild(para);  
 }
 function openBigModale2(){
-  document.getElementById("map").style.display = "block";
-  answer("Ecco cosa ho trovato...");
-  setTimeout(function(){ document.getElementById("myModal2").style.display = "block";}, 3000);
+
   
 }
 function closeBigModale(){
   document.getElementById("myModal2").style.display = "none";
+  document.getElementById("testo").innerHTML='';
+  document.getElementById("testo").className="hidden";
+  document.getElementById("map").innerHTML='';
 }
