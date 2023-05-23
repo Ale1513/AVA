@@ -1,7 +1,8 @@
 const http = require("http");                  
 const express = require('express');  
 const mysql = require('mysql');   
-const bcrypt = require('bcryptjs');   
+const bcrypt = require('bcryptjs');  
+const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest; 
 const app = express();            
 const server1 = http.createServer(app);
 const { Server } = require("socket.io");
@@ -56,6 +57,24 @@ io.on('connection', (socket) => {
       socket.emit('tuttiProm', descriptions);
     });
   });
+  socket.on('news', () => {
+    let dati;
+    let apiKey = "fdbea0c447134ad789845af9496a997a";
+    const url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        dati = JSON.parse(xhr.responseText);
+        //console.log(dati);
+        socket.emit('news', dati);
+      }
+      else {
+        console.log('Errore nella richiesta');
+      }
+    }
+    xhr.send();
+  })
 });
 
 //------------------------------------------------------

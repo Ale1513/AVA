@@ -82,6 +82,7 @@ function answer(e){
 
   function onSound() {
     if (nTocchi % 2 == 0) {
+      testo = document.getElementById("txtUtente").value;
       document.getElementById("logo").src = "../img/logoSound.gif";
       document.getElementById("txtUtente").style.display = "none";
       document.getElementById("btnUtente").value = "Stop";
@@ -111,9 +112,9 @@ function answer(e){
             }).addTo(map);
           }
           navigator.geolocation.getCurrentPosition(function(position) {
-              document.getElementById("mapCont").className="visisble";
-  //document.getElementById("map").style.display = "block";
-  answer("Ecco cosa ho trovato...");
+            document.getElementById("mapCont").className="visisble";
+            //document.getElementById("map").style.display = "block";
+            answer("Ecco cosa ho trovato...");
             var lat = position.coords.latitude;
             var lon = position.coords.longitude;
             var serviziUrl = "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=" + tag_amenity + "](around:10000," + lat + "," + lon + ");out;";
@@ -179,41 +180,68 @@ function answer(e){
         };
         xhr.send();
       } 
+
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes("meteo")) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          let lat = position.coords.latitude;
+          let lon = position.coords.longitude;
+          let xhr = new XMLHttpRequest();
+          xhr.open('GET', `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=apparent_temperature_max,apparent_temperature_min,precipitation_probability_mean&timezone=CET`);
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              let str='';
+              let dati = JSON.parse(xhr.responseText);
+              console.log(dati);
+              for(let i=0;i<dati.daily.time.length;i++){
+                if(testo.includes("oggi") && i==1){
+                  break
+                }
+                str += "Data: " + dati.daily.time[i];
+                str += '<br>';
+                str += "Massima: " + dati.daily.apparent_temperature_max[i] + "°C";
+                str += '<br>';
+                str += 'Minima: ' + dati.daily.apparent_temperature_min[i] + "°C";
+                str += '<br>';
+                str += 'Probabilità precipitazioni: ' + dati.daily.precipitation_probability_mean[i] + "%";
+                str += '<br><br>';
+              }
+              answer(str);
+            } 
+            else {
+              console.log('Errore nella richiesta');
+            }
+          };
+          xhr.send();  
+        })
+        
+      }
       
       else if((document.getElementById("txtUtente").value.toLowerCase().includes("chi sei?"))|| (document.getElementById("txtUtente").value.toLowerCase().includes("presentati"))){
         answer("Ciao, sono Ava (AVA Virtual Assistant) e sono un'assistente virtuale. I miei creatori sono due ragazzi: Alessia Sirianni e Edoardo Zambernardi. Nonostante al momento io possa svolgere solo alcune funzionalità, sono costantemente aggiornata per migliorare le mie capacità e fornirti un'esperienza sempre più completa. Spero di esserti utile e ti ringrazio  per aver scelto di interagire con me e per la tua pazienza mentre mi miglioro costantemente.")
       }
       
       else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie"))) {
-        let apiKey = "fdbea0c447134ad789845af9496a997a";
-        const url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.onload = function() {
-          if (xhr.status === 200) {
-            let dati = JSON.parse(xhr.responseText);
-            console.log(dati);
-            const articles = dati.articles;
-            let str = '';
-            const latestArticles = articles.slice(0, 5);
-            latestArticles.forEach(article => {
-              let a= article.url;
-              console.log(a);
-              str += article.title;
-              str += '<br>';
-              str += `<a href=${a}>Leggi altro..</a>`
-              str += '<br><br>';
-              str += '<hr>';
-              str += '<br><br>';
-              //str += article.url;
-              //str += '<br><br>';
-            });
-            openBigModale(str);
-          } else {
-            console.log('Errore nella richiesta');
-          }
-        };
-        xhr.send();
+        let socket = io();
+        socket.emit('news');
+        socket.on('news', function(dati) {
+          const articles = dati.articles;
+          let str = '';
+          const latestArticles = articles.slice(0, 5);
+          latestArticles.forEach(article => {
+            let a= article.url;
+            console.log(a);
+            str += article.title;
+            str += '<br>';
+            str += `<a href=${a}>Leggi altro..</a>`
+            str += '<br><br>';
+            str += '<hr>';
+            str += '<br><br>';
+            //str += article.url;
+            //str += '<br><br>';
+          });
+          openBigModale(str);         
+      });
+
       } else {
         answer("Spiacente, credo di non aver capito bene.");
       }
