@@ -292,6 +292,7 @@ li{
   
   /* Modal Content */
   .modal-content2 {
+    position: relative;
     background-color: #fefefe;
     margin: auto;
     padding: 20px;

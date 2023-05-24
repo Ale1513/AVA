@@ -137,8 +137,11 @@ function answer(e){
       }
       
       else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')) {
+        const data = Date.now();
+        let oggi=new Date(data);
+        let dataCompleta= (oggi.getFullYear() +"/"+ (oggi.getMonth()+1)+"/"+ oggi.getDate());
         var socket = io();
-        let testo = document.getElementById("txtUtente").value;
+        let testo = dataCompleta + " - "+ document.getElementById("txtUtente").value.slice(12); 
         socket.emit('newPromemoria', testo);
         socket.on('newPromemoria', function() {
           let stringa = "Promemoria inserito correttamente";
@@ -196,16 +199,18 @@ function answer(e){
                 if(testo.includes("oggi") && i==1){
                   break
                 }
+                str += '<b>';
                 str += "Data: " + dati.daily.time[i];
-                str += '<br>';
+                str += '</b><br>';
                 str += "Massima: " + dati.daily.apparent_temperature_max[i] + "°C";
                 str += '<br>';
                 str += 'Minima: ' + dati.daily.apparent_temperature_min[i] + "°C";
                 str += '<br>';
                 str += 'Probabilità precipitazioni: ' + dati.daily.precipitation_probability_mean[i] + "%";
-                str += '<br><br>';
+                str += '<br><hr><br>';
+                
               }
-              answer(str);
+              openBigModaleMeteo(str);
             } 
             else {
               console.log('Errore nella richiesta');
@@ -286,7 +291,6 @@ function caricaProm(){
 function goLogin(){
   document.getElementById("logSign").className="hidden";
   document.getElementById("template-log").className="visible";
-  //document.getElementById("template-Sign").className="hidden";
 }
 
 function goSignUp(){
@@ -324,12 +328,29 @@ function logoutUser(){
 function openBigModale(e){
   answer("Ecco cosa ho trovato...");
   document.getElementById("testo").className="visisble";
+  document.getElementById("testo").className="visisble";
+  document.getElementById("modal-content2").style.width = "40%";
+  document.getElementById("modal-content2").style.height = "70%";
+  document.getElementById("modal-content2").style.top = "0%";
   setTimeout(function(){ document.getElementById("myModal2").style.display = "block";}, 3000);
   const para = document.createElement("h3");
   para.innerHTML = e;
   document.getElementById("testo").appendChild(para);  
+  document.getElementById("testo").style.height = "85%";
+  document.getElementById("testo").style.textAlign="left";
 }
-function openBigModale2(){
+function openBigModaleMeteo(e){
+  answer("Ecco cosa ho trovato...");
+  document.getElementById("testo").className="visisble";
+  document.getElementById("modal-content2").style.width = "25%";
+  document.getElementById("modal-content2").style.height = "30%";
+  document.getElementById("modal-content2").style.top = "20%";
+  setTimeout(function(){ document.getElementById("myModal2").style.display = "block";}, 3000);
+  const para = document.createElement("p");
+  para.innerHTML = e;
+  document.getElementById("testo").appendChild(para);  
+  document.getElementById("testo").style.textAlign="center";
+  document.getElementById("testo").style.height = "70%";
 
   
 }
