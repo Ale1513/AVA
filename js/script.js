@@ -1,4 +1,4 @@
-var message = new SpeechSynthesisUtterance();
+/*var message = new SpeechSynthesisUtterance();
 message.text = "Il tuo messaggio da pronunciare";
 
 // Recupero dell'elenco delle voci
@@ -14,7 +14,7 @@ var selectedVoice = voices.find(function(voice) {
 message.voice = selectedVoice;
 
 // Riproduzione del messaggio
-window.speechSynthesis.speak(message);
+window.speechSynthesis.speak(message);*/
 //---------------------
 var nTocchi=0;        
 var map;
@@ -27,7 +27,6 @@ function myFunction() {
     x.className = "mymenu";
   }
 }
-
 
 function answer(e){
   var answers = document.getElementById('answer');
@@ -49,23 +48,35 @@ function answer(e){
       document.getElementById("txtUtente").style.display = "none";
       document.getElementById("btnUtente").value = "Stop";
   
-      if (document.getElementById("txtUtente").value.includes("ristoranti") || document.getElementById("txtUtente").value.includes("alberghi") || document.getElementById("txtUtente").value.includes("ospedali")) {
-        var tag = '';
-        var tag_amenity = '';
-        if (document.getElementById("txtUtente").value.includes("ristoranti")) {
-          tag = 'ristoranti';
-          tag_amenity = 'restaurant';
-        }
-        if (document.getElementById("txtUtente").value.includes("alberghi")) {
-          tag = 'alberghi';
-          tag_amenity = 'hotel';
-        }
-        if (document.getElementById("txtUtente").value.includes("ospedali")) {
-          tag = 'ospedali';
-          tag_amenity = 'hospital';
-        }
-  
-        if (document.getElementById("txtUtente").value.toLowerCase().includes(`cerca nelle vicinanze: ${tag}`)) {
+        if (document.getElementById("txtUtente").value.toLowerCase().includes('cerca nelle vicinanze')) {
+          let tag_amenity = '';
+          if (testo.includes("ristoranti") || testo.includes("ristorante")) {
+            tag_amenity = 'restaurant';
+          }
+          if (testo.includes("alberghi") || testo.includes("albergo")) {
+            tag_amenity = 'hotel';
+          }
+          if (testo.includes("ospedali") || testo.includes("ospedale")) {
+            tag_amenity = 'hospital';
+          }
+          if (testo.includes("bar")) {
+            tag_amenity = 'bar';
+          }
+          if (testo.includes("stazioni degli autobus") || testo.includes("stazione degli autobus")) {
+            tag_amenity = 'bus_station';
+          }
+          if (testo.includes("benzina")) {
+            tag_amenity = 'fuel';
+          }
+          if (testo.includes("parcheggi") || testo.includes("parcheggio")) {
+            tag_amenity = 'parking';
+          }
+          if (testo.includes("farmacie") || testo.includes("farmacia")) {
+            tag_amenity = 'pharmacy';
+          }
+          if (testo.includes("cinema")) {
+            tag_amenity = 'cinema';
+          }
           if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
             map = L.map('map').setView([44.8015, 10.3279], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -77,9 +88,16 @@ function answer(e){
             document.getElementById("mapCont").className="visisble";
             //document.getElementById("map").style.display = "block";
             answer("Ecco cosa ho trovato...");
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            var serviziUrl = "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=" + tag_amenity + "](around:10000," + lat + "," + lon + ");out;";
+            let lat = position.coords.latitude;
+            let lon = position.coords.longitude;
+            let currentLocationMarker = L.circle([lat, lon], {
+              radius: 100, // specifica il raggio del cerchio in metri
+              color: 'red', // specifica il colore del cerchio
+              fillColor: 'red', // specifica il colore di riempimento del cerchio
+              fillOpacity: 0.5 // specifica l'opacità del riempimento del cerchio
+            }).addTo(map);
+            currentLocationMarker.bindPopup("La mia posizione");
+            let serviziUrl = "https://overpass-api.de/api/interpreter?data=[out:json];node[amenity=" + tag_amenity + "](around:10000," + lat + "," + lon + ");out;";
             fetch(serviziUrl)
               .then(response => response.json())
               .then(data => {
@@ -96,7 +114,7 @@ function answer(e){
           });
 
         }
-      }
+      
       
       else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')) {
         const data = Date.now();
@@ -219,11 +237,11 @@ function answer(e){
       
       else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie"))) {
         let socket = io();
-        socket.emit('news');
+        socket.emit('news', testo);
         socket.on('news', function(dati) {
           const articles = dati.articles;
           let str = '';
-          const latestArticles = articles.slice(0, 5);
+          const latestArticles = articles.slice(0, 10);
           latestArticles.forEach(article => {
             let a= article.url;
             console.log(a);

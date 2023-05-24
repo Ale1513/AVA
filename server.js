@@ -6,6 +6,7 @@ const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 const app = express();            
 const server1 = http.createServer(app);
 const { Server } = require("socket.io");
+const { test } = require("node:test");
 const io = new Server(server1);
 
 var username;
@@ -57,10 +58,35 @@ io.on('connection', (socket) => {
       socket.emit('tuttiProm', descriptions);
     });
   });
-  socket.on('news', () => {
+
+  socket.on('news', (testo) => {
     let dati;
     let apiKey = "fdbea0c447134ad789845af9496a997a";
-    const url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
+    let url;
+    if(testo.toLowerCase().includes("italia")){
+      url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
+    }
+    else if(testo.toLowerCase().includes("sport") || testo.toLowerCase().includes("sportive")){
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=sports&apiKey=${apiKey}`;
+    }
+    else if(testo.toLowerCase().includes("cultura") || testo.toLowerCase().includes("spettacolo")){
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=entertainment&apiKey=${apiKey}`;
+    }
+    else if(testo.toLowerCase().includes("tecnologia") || testo.toLowerCase().includes("tecnologiche") || testo.toLowerCase().includes("tecnologico")){
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=technology&apiKey=${apiKey}`;
+    }
+    else if(testo.toLowerCase().includes("scienza") || testo.toLowerCase().includes("scientifico")){
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=science&apiKey=${apiKey}`;
+    }
+    else if(testo.toLowerCase().includes("musica") || testo.toLowerCase().includes("musicale")){
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=music&apiKey=${apiKey}`;
+    }
+    else if(testo.toLowerCase().includes("arte") || testo.toLowerCase().includes("artistico")){
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=arts&apiKey=${apiKey}`;
+    }
+    else{
+      url = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}`;
+    }
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.onload = function() {
