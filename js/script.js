@@ -1,59 +1,21 @@
-/*let utterance = new SpeechSynthesisUtterance("Hello world!");
-speechSynthesis.speak(utterance);
+var message = new SpeechSynthesisUtterance();
+message.text = "Il tuo messaggio da pronunciare";
 
-const synth = window.speechSynthesis;
+// Recupero dell'elenco delle voci
+var voices = speechSynthesis.getVoices();
 
-const inputForm = document.querySelector("form");
-const inputTxt = document.querySelector(".txt");
-const voiceSelect = document.querySelector("select");
-const pitch = document.querySelector("#pitch");
-const pitchValue = document.querySelector(".pitch-value");
-const rate = document.querySelector("#rate");
-const rateValue = document.querySelector(".rate-value");
+// Seleziona la voce di donna
+var selectedVoice = voices.find(function(voice) {
 
-let voices = [];
+  return voice.lang === 'it-IT' && voice.name.includes('Female'); // Esempio: voce italiana di donna
+});
+  console.log(speechSynthesis.getVoices());
+// Imposta la voce nell'oggetto SpeechSynthesisUtterance
+message.voice = selectedVoice;
 
-function populateVoiceList() {
-  voices = synth.getVoices();
-
-  for (let i = 0; i < voices.length; i++) {
-    const option = document.createElement("option");
-    option.textContent = `${voices[i].name} (${voices[i].lang})`;
-
-    if (voices[i].default) {
-      option.textContent += " — DEFAULT";
-    }
-
-    option.setAttribute("data-lang", voices[i].lang);
-    option.setAttribute("data-name", voices[i].name);
-    voiceSelect.appendChild(option);
-  }
-}
-
-populateVoiceList();
-if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = populateVoiceList;
-}
-
-inputForm.onsubmit = (event) => {
-  event.preventDefault();
-
-  const utterThis = new SpeechSynthesisUtterance(inputTxt.value);
-  const selectedOption =
-    voiceSelect.selectedOptions[0].getAttribute("data-name");
-  for (let i = 0; i < voices.length; i++) {
-    if (voices[i].name === selectedOption) {
-      utterThis.voice = voices[i];
-    }
-  }
-  utterThis.pitch = pitch.value;
-  utterThis.rate = rate.value;
-  synth.speak(utterThis);
-
-  inputTxt.blur();
-};
-['restaurant', 'hotel', 'hospital', 'bus_station', 'bank', 'pharmacy']*/
-
+// Riproduzione del messaggio
+window.speechSynthesis.speak(message);
+//---------------------
 var nTocchi=0;        
 var map;
 
@@ -177,6 +139,36 @@ function answer(e){
             console.log(dati);
             let random = Math.floor(Math.random() * dati.length);
             answer(dati[random].frase);
+          } else {
+            console.log('Errore nella richiesta');
+          }
+        };
+        xhr.send();
+      } 
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes("ricetta") || document.getElementById("txtUtente").value.includes("ricette")) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://api-ricette.vercel.app/api/ricette');
+        xhr.onload = function() {
+          if (xhr.status === 200) {
+            let dati = JSON.parse(xhr.responseText);
+            console.log(dati);
+            if(testo.includes("primo")){
+              let random = Math.floor(Math.random() * 19);
+              answer("Ecco cosa ho pensato per te: "+ dati[random].ricetta);
+            }
+            else if(testo.includes("secondo")){
+              let random = Math.floor(Math.random() * (39 - 21) + 21);              
+              answer("Ecco cosa ho pensato per te: "+ dati[random].ricetta);
+            }
+            else if((testo.includes("dolce"))|| (testo.includes("dessert"))){
+              let random = Math.floor(Math.random() * (59 - 39) + 39);              
+              answer("Ecco cosa ho pensato per te: "+ dati[random].ricetta);
+            }
+            else{
+              let random = Math.floor(Math.random() * dati.length);            
+              answer("Ecco cosa ho pensato per te: "+ dati[random].ricetta);
+            }
+            
           } else {
             console.log('Errore nella richiesta');
           }
