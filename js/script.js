@@ -18,6 +18,7 @@ window.speechSynthesis.speak(message);*/
 //---------------------
 var nTocchi=0;        
 var map;
+const weekday = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
 
 function myFunction() {
   var x = document.getElementById("menu");
@@ -78,6 +79,7 @@ function answer(e){
             tag_amenity = 'cinema';
           }
           if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
+            document.getElementById("map").style.height="400px";
             map = L.map('map').setView([44.8015, 10.3279], 13);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
               attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
@@ -85,8 +87,7 @@ function answer(e){
             }).addTo(map);
           }
           navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById("mapCont").className="visisble";
-            //document.getElementById("map").style.display = "block";
+        
             answer("Ecco cosa ho trovato...");
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
@@ -209,8 +210,9 @@ function answer(e){
                 if(testo.includes("oggi") && i==1){
                   break
                 }
+                let d = new Date(dati.daily.time[i]);
                 str += '<b>';
-                str += "Data: " + dati.daily.time[i];
+                str += "Data: " + dati.daily.time[i] +  " - "+ weekday[d.getDay()];
                 str += '</b><br>';
                 str += "Massima: " + dati.daily.apparent_temperature_max[i] + "°C";
                 str += '<br>';
@@ -267,7 +269,8 @@ function answer(e){
       if (map) {
         map.remove();
       }
-      document.getElementById("mapCont").className="hidden";
+      document.getElementById("map").style.height="1px";
+     // document.getElementById("mapCont").className="hidden";
       document.getElementById("logo").src = "../img/logoSemplice.png";
       document.getElementById("contentAnswer").style.backgroundColor = "white";
       document.getElementById("answer").innerText = " ";

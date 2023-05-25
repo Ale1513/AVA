@@ -245,7 +245,7 @@ input[type=submit]:hover{
 
 
 #map{ 
-    height: 400px; 
+    height: 1px; 
     background-color: white;
     /*display: none;*/
 }
