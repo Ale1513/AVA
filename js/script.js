@@ -1,20 +1,29 @@
-/*var message = new SpeechSynthesisUtterance();
-message.text = "Il tuo messaggio da pronunciare";
+var message = new SpeechSynthesisUtterance();
+const synth = window.speechSynthesis;
+var primaFrase=0;
+function populateVoiceList(str) {
+  voices = synth.getVoices();
 
-// Recupero dell'elenco delle voci
-var voices = speechSynthesis.getVoices();
+  var selectedVoice = voices.find(function(voice) {
+    return voice.name === 'Microsoft Elsa - Italian (Italy)';
+  });
 
-// Seleziona la voce di donna
-var selectedVoice = voices.find(function(voice) {
+  if (selectedVoice) {
+    message.voice = selectedVoice;
+    message.rate = 1.3; // Velocità aumentata del 50%
+    message.text = str//document.getElementById('answer').innerText;
+    window.speechSynthesis.speak(message);
+  } else {
+    console.log("Voce 'Microsoft Elsa' non trovata.");
+  }
+}
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = populateVoiceList;
+} else {
+  populateVoiceList();
+}
 
-  return voice.lang === 'it-IT' && voice.name.includes('Female'); // Esempio: voce italiana di donna
-});
-  console.log(speechSynthesis.getVoices());
-// Imposta la voce nell'oggetto SpeechSynthesisUtterance
-message.voice = selectedVoice;
 
-// Riproduzione del messaggio
-window.speechSynthesis.speak(message);*/
 //---------------------
 var nTocchi=0;        
 var map;
@@ -33,13 +42,16 @@ function answer(e){
   var answers = document.getElementById('answer');
     var typewriter = new Typewriter(answers, {
       loop: false,
-      delay: 1,
-      typeSpeed: 10,
+      delay: 49.5,
+      typeSpeed: 1,
     });
     typewriter.typeString(e)
       .pauseFor(1)
       .start();
     document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";
+    
+      populateVoiceList(e);
+    
   }
 
   function onSound() {
@@ -272,6 +284,7 @@ function answer(e){
       document.getElementById("map").style.height="1px";
      // document.getElementById("mapCont").className="hidden";
       document.getElementById("logo").src = "../img/logoSemplice.png";
+      window.speechSynthesis.cancel();
       document.getElementById("contentAnswer").style.backgroundColor = "white";
       document.getElementById("answer").innerText = " ";
       document.getElementById("txtUtente").style.display = "initial";
