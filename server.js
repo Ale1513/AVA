@@ -3,6 +3,9 @@ const express = require('express');
 const mysql = require('mysql');   
 const bcrypt = require('bcryptjs');  
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest; 
+const config = require('./config');
+const apiKeyNotizie = config.apiKeyNews;
+const apiKeyTraduzione = config.apiKeyTranslate;
 const app = express();            
 const server1 = http.createServer(app);
 const { Server } = require("socket.io");
@@ -61,31 +64,30 @@ io.on('connection', (socket) => {
 
   socket.on('news', (testo) => {
     let dati;
-    let apiKey = "fdbea0c447134ad789845af9496a997a";
     let url;
     if(testo.toLowerCase().includes("italia")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKeyNotizie}`;
     }
     else if(testo.toLowerCase().includes("sport") || testo.toLowerCase().includes("sportive")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&category=sports&apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=sports&apiKey=${apiKeyNotizie}`;
     }
     else if(testo.toLowerCase().includes("cultura") || testo.toLowerCase().includes("spettacolo")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&category=entertainment&apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=entertainment&apiKey=${apiKeyNotizie}`;
     }
     else if(testo.toLowerCase().includes("tecnologia") || testo.toLowerCase().includes("tecnologiche") || testo.toLowerCase().includes("tecnologico")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&category=technology&apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=technology&apiKey=${apiKeyNotizie}`;
     }
     else if(testo.toLowerCase().includes("scienza") || testo.toLowerCase().includes("scientifico")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&category=science&apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=science&apiKey=${apiKeyNotizie}`;
     }
     else if(testo.toLowerCase().includes("musica") || testo.toLowerCase().includes("musicale")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&category=music&apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=music&apiKey=${apiKeyNotizie}`;
     }
     else if(testo.toLowerCase().includes("arte") || testo.toLowerCase().includes("artistico")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&category=arts&apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&category=arts&apiKey=${apiKeyNotizie}`;
     }
     else{
-      url = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}`;
+      url = `https://newsapi.org/v2/top-headlines?apiKey=${apiKeyNotizie}`;
     }
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url);
@@ -100,10 +102,46 @@ io.on('connection', (socket) => {
       }
     }
     xhr.send();
-  })
+  });
+
+  socket.on('traduzione', (testo) => {
+    let lang;
+    
+    if(testo.toLowerCase().includes("italiano")){
+      lang = 'IT';
+    }
+    else if(testo.toLowerCase().includes("francese")){
+      lang = 'FR';    
+    }
+    else if(testo.toLowerCase().includes("inglese")){
+      lang = 'EN';    
+    }
+    else if(testo.toLowerCase().includes("spagnolo")){
+      lang = 'ES';    
+    }
+    let testoTrad = testo.split(':')[1].trim();
+    let url = `https://api-free.deepl.com/v2/translate?auth_key=${apiKeyTraduzione}&text=${testoTrad}&target_lang=${lang}`;
+
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // La richiesta è stata completata con successo
+        let response = JSON.parse(xhr.responseText);
+        let translatedText = response.translations[0].text;
+        socket.emit('traduzione', translatedText);
+        console.log('Testo tradotto: ' + translatedText);
+      } else {
+        // Si è verificato un errore nella richiesta
+        console.log('Si è verificato un errore nella richiesta: ' + xhr.status);
+      }
+    };
+    xhr.open('GET', url);
+    xhr.send();
+  });
+  
 });
 
-//------------------------------------------------------
+//------------------------------------------------------traduci in inglese questa frase: sono Edoardo, un ragazzo di 19 anni che frequenta la scuola superiore
 
 function loginUser(valore1, valore2, callback){
   connection.query(`SELECT username, password FROM user WHERE username = '${valore1}'`,

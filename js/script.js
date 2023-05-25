@@ -176,6 +176,7 @@ function answer(e){
         };
         xhr.send();
       } 
+      
       else if (document.getElementById("txtUtente").value.toLowerCase().includes("ricetta") || document.getElementById("txtUtente").value.includes("ricette")) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://api-ricette.vercel.app/api/ricette');
@@ -249,6 +250,7 @@ function answer(e){
         answer("Ciao, sono Ava (AVA Virtual Assistant) e sono un'assistente virtuale. I miei creatori sono due ragazzi: Alessia Sirianni e Edoardo Zambernardi. Nonostante al momento io possa svolgere solo alcune funzionalità, sono costantemente aggiornata per migliorare le mie capacità e fornirti un'esperienza sempre più completa. Spero di esserti utile e ti ringrazio  per aver scelto di interagire con me e per la tua pazienza mentre mi miglioro costantemente.")
       }
       
+      
       else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie"))) {
         let socket = io();
         socket.emit('news', testo);
@@ -269,9 +271,18 @@ function answer(e){
             //str += '<br><br>';
           });
           openBigModale(str);         
-      });
+        });
+      }
+      
+      else if ((document.getElementById("txtUtente").value.toLowerCase().includes("traduci"))||(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
+        let socket = io();
+        socket.emit('traduzione', testo);
+        socket.on('traduzione', function(trad) {
+          openBigModale(trad);         
+        });
+      }
 
-      } else {
+      else {
         answer("Spiacente, credo di non aver capito bene.");
       }
   
