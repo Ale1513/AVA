@@ -11,7 +11,8 @@ function populateVoiceList(str) {
   if (selectedVoice) {
     message.voice = selectedVoice;
     message.rate = 1.3; // Velocità aumentata del 50%
-    if(str==null || typeof(str) == Event) str=" ";
+    if(str==null || typeof(str) == 'Event') 
+    {str=" ";}
     console.log(str);
     message.text = str//document.getElementById('answer').innerText;
     window.speechSynthesis.speak(message);
@@ -305,7 +306,8 @@ function answer(e){
   }
   
 function chiSono1(){
-  answer("Ciao, sono Ava (AVA Virtual Assistant), cosa posso fare per te?")
+  let testoCiao="Ciao, sono Ava (AVA Virtual Assistant), cosa posso fare per te?";
+  answer(testoCiao)
 }
 
 
