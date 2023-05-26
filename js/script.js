@@ -11,6 +11,8 @@ function populateVoiceList(str) {
   if (selectedVoice) {
     message.voice = selectedVoice;
     message.rate = 1.3; // Velocità aumentata del 50%
+    if(str==null || typeof(str) == Event) str=" ";
+    console.log(str);
     message.text = str//document.getElementById('answer').innerText;
     window.speechSynthesis.speak(message);
   } else {
@@ -19,8 +21,6 @@ function populateVoiceList(str) {
 }
 if (speechSynthesis.onvoiceschanged !== undefined) {
   speechSynthesis.onvoiceschanged = populateVoiceList;
-} else {
-  populateVoiceList();
 }
 
 
