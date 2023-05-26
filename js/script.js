@@ -20,9 +20,6 @@ function populateVoiceList(str) {
     console.log("Voce 'Microsoft Elsa' non trovata.");
   }
 }
-if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = populateVoiceList;
-}
 
 
 //---------------------
@@ -41,19 +38,19 @@ function myFunction() {
 
 function answer(e){
   var answers = document.getElementById('answer');
-    var typewriter = new Typewriter(answers, {
-      loop: false,
-      delay: 49.5,
-      typeSpeed: 1,
-    });
-    typewriter.typeString(e)
-      .pauseFor(1)
-      .start();
-    document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";
-    
-      populateVoiceList(e);
-    
+  var typewriter = new Typewriter(answers, {
+    loop: false,
+    delay: 49.5,
+    typeSpeed: 1,
+  });
+  typewriter.typeString(e)
+    .pauseFor(1)
+    .start();
+  document.getElementById("contentAnswer").style.backgroundColor="#0067ac4f";
+  if(e!="Ciao, sono Ava (AVA Virtual Assistant), cosa posso fare per te?"){
+    populateVoiceList(e);
   }
+}
 
   function onSound() {
     if (nTocchi % 2 == 0) {
@@ -62,7 +59,9 @@ function answer(e){
       document.getElementById("txtUtente").style.display = "none";
       document.getElementById("btnUtente").value = "Stop";
   
-        if (document.getElementById("txtUtente").value.toLowerCase().includes('cerca nelle vicinanze')) {
+        if (document.getElementById("txtUtente").value.toLowerCase().includes('cerca nelle vicinanze') && 
+        !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+        !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
           let tag_amenity = '';
           if (testo.includes("ristoranti") || testo.includes("ristorante")) {
             tag_amenity = 'restaurant';
@@ -101,7 +100,7 @@ function answer(e){
           }
           navigator.geolocation.getCurrentPosition(function(position) {
         
-            answer("Ecco cosa ho trovato...");
+            answer("Ecco la risposta alla tua richiesta...");
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
             let currentLocationMarker = L.circle([lat, lon], {
@@ -130,7 +129,9 @@ function answer(e){
         }
       
       
-      else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:')) {
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:') && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         const data = Date.now();
         let oggi=new Date(data);
         let dataCompleta= (oggi.getFullYear() +"/"+ (oggi.getMonth()+1)+"/"+ oggi.getDate());
@@ -144,12 +145,16 @@ function answer(e){
 
       }
       
-      else if (document.getElementById("txtUtente").value.toLowerCase().includes('cadel')) {
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes('cadel') && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         let stringa = "CADEL EVANS - IL MIGLIOR CICLISTA DEL MONDO!";
         answer(stringa);
       }
       
-      else if (document.getElementById("txtUtente").value.toLowerCase().includes('ciao')) {
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes('ciao') && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         let stringa = "";
         const currentHour = new Date().getHours();
         if (currentHour < 13) {
@@ -162,7 +167,9 @@ function answer(e){
         answer(stringa);
       } 
       
-      else if (document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette")) {
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette") && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://api-barzellette.vercel.app/api/barzellette');
         xhr.onload = function() {
@@ -177,8 +184,10 @@ function answer(e){
         };
         xhr.send();
       } 
-      
-      else if (document.getElementById("txtUtente").value.toLowerCase().includes("ricetta") || document.getElementById("txtUtente").value.includes("ricette")) {
+
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes("ricetta") || document.getElementById("txtUtente").value.includes("ricette") && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         let xhr = new XMLHttpRequest();
         xhr.open('GET', 'https://api-ricette.vercel.app/api/ricette');
         xhr.onload = function() {
@@ -209,7 +218,9 @@ function answer(e){
         xhr.send();
       } 
 
-      else if (document.getElementById("txtUtente").value.toLowerCase().includes("meteo")) {
+      else if (document.getElementById("txtUtente").value.toLowerCase().includes("meteo") && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         navigator.geolocation.getCurrentPosition(function(position) {
           let lat = position.coords.latitude;
           let lon = position.coords.longitude;
@@ -247,12 +258,16 @@ function answer(e){
         
       }
       
-      else if((document.getElementById("txtUtente").value.toLowerCase().includes("chi sei?"))|| (document.getElementById("txtUtente").value.toLowerCase().includes("presentati"))){
+      else if((document.getElementById("txtUtente").value.toLowerCase().includes("chi sei?"))|| (document.getElementById("txtUtente").value.toLowerCase().includes("presentati")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))){
         answer("Ciao, sono Ava (AVA Virtual Assistant) e sono un'assistente virtuale. I miei creatori sono due ragazzi: Alessia Sirianni e Edoardo Zambernardi. Nonostante al momento io possa svolgere solo alcune funzionalità, sono costantemente aggiornata per migliorare le mie capacità e fornirti un'esperienza sempre più completa. Spero di esserti utile e ti ringrazio  per aver scelto di interagire con me e per la tua pazienza mentre mi miglioro costantemente.")
       }
       
       
-      else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie"))) {
+      else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
+      !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         let socket = io();
         socket.emit('news', testo);
         socket.on('news', function(dati) {
@@ -365,7 +380,7 @@ function logoutUser(){
 }
 
 function openBigModale(e){
-  answer("Ecco cosa ho trovato...");
+  answer("Ecco la risposta alla tua richiesta...");
   document.getElementById("testo").className="visisble";
   document.getElementById("testo").className="visisble";
   document.getElementById("modal-content2").style.width = "40%";
@@ -379,7 +394,7 @@ function openBigModale(e){
   document.getElementById("testo").style.textAlign="left";
 }
 function openBigModaleMeteo(e){
-  answer("Ecco cosa ho trovato...");
+  answer("Ecco la risposta alla tua richiesta...");
   document.getElementById("testo").className="visisble";
   document.getElementById("modal-content2").style.width = "25%";
   document.getElementById("modal-content2").style.height = "30%";
