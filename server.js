@@ -1,11 +1,11 @@
+require('dotenv').config();
 const http = require("http");                  
 const express = require('express');  
 const mysql = require('mysql');   
 const bcrypt = require('bcryptjs');  
 const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest; 
-const config = require('./config');
-const apiKeyNotizie = config.apiKeyNews;
-const apiKeyTraduzione = config.apiKeyTranslate;
+const apiKeyNotizie = process.env.API_KEY_NEWS;
+const apiKeyTraduzione = process.env.API_KEY_TRANSLATE;
 const app = express();            
 const server1 = http.createServer(app);
 const { Server } = require("socket.io");
@@ -16,10 +16,10 @@ var username;
 var password;
 
 const connection = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'a.v.a'
+  host: 'srv013',
+  user: 'ava',
+  password: 'ava',
+  database: 'ava'
 });
 
 connection.connect((err) => {
