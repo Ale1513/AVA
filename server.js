@@ -65,10 +65,8 @@ io.on('connection', (socket) => {
   socket.on('news', (testo) => {
     let dati;
     let url;
-    if(testo.toLowerCase().includes("italia")){
-      url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKeyNotizie}`;
-    }
-    else if(testo.toLowerCase().includes("sport") || testo.toLowerCase().includes("sportive")){
+    
+    if(testo.toLowerCase().includes("sport") || testo.toLowerCase().includes("sportive")){
       url = `https://newsapi.org/v2/top-headlines?country=it&category=sports&apiKey=${apiKeyNotizie}`;
     }
     else if(testo.toLowerCase().includes("cultura") || testo.toLowerCase().includes("spettacolo")){
@@ -87,7 +85,7 @@ io.on('connection', (socket) => {
       url = `https://newsapi.org/v2/top-headlines?country=it&category=arts&apiKey=${apiKeyNotizie}`;
     }
     else{
-      url = `https://newsapi.org/v2/top-headlines?apiKey=${apiKeyNotizie}`;
+      url = `https://newsapi.org/v2/top-headlines?country=it&apiKey=${apiKeyNotizie}`;
     }
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url);

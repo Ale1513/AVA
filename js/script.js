@@ -231,6 +231,7 @@ function answer(e){
               let str='';
               let dati = JSON.parse(xhr.responseText);
               console.log(dati);
+              console.log("ciao")
               for(let i=0;i<dati.daily.time.length;i++){
                 if(testo.includes("oggi") && i==1){
                   break
@@ -245,6 +246,7 @@ function answer(e){
                 str += '<br>';
                 str += 'Probabilità precipitazioni: ' + dati.daily.precipitation_probability_mean[i] + "%";
                 str += '<br><hr><br>';
+                console.log("ciao1")
                 
               }
               openBigModaleMeteo(str);
