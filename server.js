@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: 'config.env' });
 const http = require("http");                  
 const express = require('express');  
 const mysql = require('mysql');   
@@ -16,10 +16,10 @@ var username;
 var password;
 
 const connection = mysql.createConnection({
-  host: 'srv013',
-  user: 'ava',
-  password: 'ava',
-  database: 'ava'
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'a.v.a'
 });
 
 connection.connect((err) => {
