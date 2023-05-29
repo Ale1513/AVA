@@ -11,8 +11,8 @@ const { Server } = require("socket.io");
 //const { test } = require("node:test");
 const io = new Server(server1);
 
-var username;
-var password;
+let username;
+let password;
 
 const connection = mysql.createConnection({
   host: 'srv013',
@@ -31,7 +31,7 @@ connection.connect((err) => {
 io.on('connection', (socket) => {
   socket.on('signUp', (us, p) => {
       insertNewUser(us, p);
-      socket.emit('signUp',null,null);
+      socket.emit('signUp');
   });
   socket.on('login', (us, p) => {
     username = us;
@@ -39,10 +39,10 @@ io.on('connection', (socket) => {
     loginUser(us, p, function(result){
       if(result){
         console.log("OK");
-        socket.emit('login',null,null);
+        socket.emit('login');
       }
       else{
-        socket.emit('loginErrore',null,null);
+        socket.emit('loginErrore');
         console.log("Errore");
       }
     })  

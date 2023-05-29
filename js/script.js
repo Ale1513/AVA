@@ -1,10 +1,10 @@
-var message = new SpeechSynthesisUtterance();
+let message = new SpeechSynthesisUtterance();
 const synth = window.speechSynthesis;
-var primaFrase=0;
+
 function populateVoiceList(str) {
   voices = synth.getVoices();
 
-  var selectedVoice = voices.find(function(voice) {
+  let selectedVoice = voices.find(function(voice) {
     return voice.name === 'Microsoft Elsa - Italian (Italy)';
   });
 
@@ -23,12 +23,12 @@ function populateVoiceList(str) {
 
 
 //---------------------
-var nTocchi=0;        
-var map;
+let nTocchi=0;        
+let map;
 const weekday = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
 
 function myFunction() {
-  var x = document.getElementById("menu");
+  let x = document.getElementById("menu");
   if (x.className === "mymenu") {
     x.className += " responsive";
   } else {
@@ -37,8 +37,8 @@ function myFunction() {
 }
 
 function answer(e){
-  var answers = document.getElementById('answer');
-  var typewriter = new Typewriter(answers, {
+  let answers = document.getElementById('answer');
+  let typewriter = new Typewriter(answers, {
     loop: false,
     delay: 49.5,
     typeSpeed: 1,
@@ -114,9 +114,9 @@ function answer(e){
             fetch(serviziUrl)
               .then(response => response.json())
               .then(data => {
-                for (var i = 0; i < data.elements.length; i++) {
-                  var servizio = data.elements[i];
-                  var marker = L.marker([servizio.lat, servizio.lon]).addTo(map);
+                for (let i = 0; i < data.elements.length; i++) {
+                  let servizio = data.elements[i];
+                  let marker = L.marker([servizio.lat, servizio.lon]).addTo(map);
                   marker.bindPopup(servizio.tags.name);
                 }
               });           
@@ -135,7 +135,7 @@ function answer(e){
         const data = Date.now();
         let oggi=new Date(data);
         let dataCompleta= (oggi.getFullYear() +"/"+ (oggi.getMonth()+1)+"/"+ oggi.getDate());
-        var socket = io();
+        let socket = io();
         let testo = dataCompleta + " - "+ document.getElementById("txtUtente").value.slice(12); 
         socket.emit('newPromemoria', testo);
         socket.on('newPromemoria', function() {
@@ -330,7 +330,7 @@ function chiSono1(){
 
 
 function caricaProm(){
-  var socket = io();
+  let socket = io();
 
   socket.emit('tuttiProm');   
   socket.on('tuttiProm', function(descriptions) {
