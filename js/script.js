@@ -90,19 +90,20 @@ function answer(e){
           if (testo.includes("cinema")) {
             tag_amenity = 'cinema';
           }
-          if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
-            document.getElementById("map").style.height="400px";
-            map = L.map('map').setView([44.8015, 10.3279], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-              maxZoom: 18,
-            }).addTo(map);
-          }
+          
           navigator.geolocation.getCurrentPosition(function(position) {
-        
-            answer("Ecco la risposta alla tua richiesta...");
             let lat = position.coords.latitude;
             let lon = position.coords.longitude;
+            if (document.getElementById("map") && !document.getElementById("map").hasChildNodes()) {
+              document.getElementById("map").style.height="400px";
+              map = L.map('map').setView([44.8015, 10.3279], 13);
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+                maxZoom: 18,
+              }).addTo(map);
+            }
+            answer("Ecco la risposta alla tua richiesta...");
+            
             let currentLocationMarker = L.circle([lat, lon], {
               radius: 100, // specifica il raggio del cerchio in metri
               color: 'red', // specifica il colore del cerchio
