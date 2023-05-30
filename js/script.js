@@ -10,11 +10,11 @@ function populateVoiceList(str) {
 
   if (selectedVoice) {
     message.voice = selectedVoice;
-    message.rate = 1.3; // Velocità aumentata del 50%
+    message.rate = 1.3; 
     if(str==null || typeof(str) == 'Event') 
     {str=" ";}
     console.log(str);
-    message.text = str//document.getElementById('answer').innerText;
+    message.text = str;
     window.speechSynthesis.speak(message);
   } else {
     console.log("Voce 'Microsoft Elsa' non trovata.");
@@ -22,7 +22,7 @@ function populateVoiceList(str) {
 }
 
 
-//---------------------
+//------------------------------------------------------------
 let nTocchi=0;        
 let map;
 const weekday = ["Domenica","Lunedì","Martedì","Mercoledì","Giovedì","Venerdì","Sabato"];
@@ -51,14 +51,14 @@ function answer(e){
     populateVoiceList(e);
   }
 }
-
+//---------start---------------------------------
   function onSound() {
     if (nTocchi % 2 == 0) {
       testo = document.getElementById("txtUtente").value;
       document.getElementById("logo").src = "../img/logoSound.gif";
       document.getElementById("txtUtente").style.display = "none";
       document.getElementById("btnUtente").value = "Stop";
-  
+ //----------------------------------mappa---------------------------------------------------- 
         if (document.getElementById("txtUtente").value.toLowerCase().includes('cerca nelle vicinanze') && 
         !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
         !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
@@ -120,7 +120,6 @@ function answer(e){
                   marker.bindPopup(servizio.tags.name);
                 }
               });           
-               //openBigModale2();
 
           }, function(error) {
             console.log("Errore durante la geolocalizzazione: ", error);
@@ -128,7 +127,8 @@ function answer(e){
 
         }
       
-      
+       //----------------------------------promemoria---------------------------------------------------- 
+
       else if (document.getElementById("txtUtente").value.toLowerCase().includes('promemoria:') && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
@@ -144,14 +144,16 @@ function answer(e){
         });
 
       }
-      
+       //----------------------------------CADEL MA SI RIALZA---------------------------------------------------- 
+
       else if (document.getElementById("txtUtente").value.toLowerCase().includes('cadel') && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         let stringa = "CADEL EVANS - IL MIGLIOR CICLISTA DEL MONDO!";
         answer(stringa);
       }
-      
+       //----------------------------------saluto---------------------------------------------------- 
+
       else if (document.getElementById("txtUtente").value.toLowerCase().includes('ciao') && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
@@ -166,7 +168,8 @@ function answer(e){
         }
         answer(stringa);
       } 
-      
+       //----------------------------------barzelletta---------------------------------------------------- 
+
       else if (document.getElementById("txtUtente").value.toLowerCase().includes("barzelletta") || document.getElementById("txtUtente").value.includes("barzellette") && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
@@ -184,6 +187,7 @@ function answer(e){
         };
         xhr.send();
       } 
+ //----------------------------------ricette---------------------------------------------------- 
 
       else if (document.getElementById("txtUtente").value.toLowerCase().includes("ricetta") || document.getElementById("txtUtente").value.includes("ricette") && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
@@ -217,6 +221,7 @@ function answer(e){
         };
         xhr.send();
       } 
+ //----------------------------------meteo---------------------------------------------------- 
 
       else if (document.getElementById("txtUtente").value.toLowerCase().includes("meteo") && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
@@ -259,14 +264,16 @@ function answer(e){
         })
         
       }
-      
+       //----------------------------------info---------------------------------------------------- 
+
       else if((document.getElementById("txtUtente").value.toLowerCase().includes("chi sei?"))|| (document.getElementById("txtUtente").value.toLowerCase().includes("presentati")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))){
         answer("Ciao, sono Ava (AVA Virtual Assistant) e sono un'assistente virtuale. I miei creatori sono due ragazzi: Alessia Sirianni e Edoardo Zambernardi. Nonostante al momento io possa svolgere solo alcune funzionalità, sono costantemente aggiornata per migliorare le mie capacità e fornirti un'esperienza sempre più completa. Spero di esserti utile e ti ringrazio  per aver scelto di interagire con me e per la tua pazienza mentre mi miglioro costantemente.")
       }
       
-      
+       //----------------------------------notizie---------------------------------------------------- 
+
       else if ((document.getElementById("txtUtente").value.toLowerCase().includes("notizia"))||(document.getElementById("txtUtente").value.toLowerCase().includes("notizie")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduci")) && 
       !(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
@@ -285,13 +292,12 @@ function answer(e){
             str += '<br><br>';
             str += '<hr>';
             str += '<br><br>';
-            //str += article.url;
-            //str += '<br><br>';
           });
           openBigModale(str);         
         });
       }
-      
+       //----------------------------------traduzione---------------------------------------------------- 
+
       else if ((document.getElementById("txtUtente").value.toLowerCase().includes("traduci"))||(document.getElementById("txtUtente").value.toLowerCase().includes("traduzione"))) {
         let socket = io();
         socket.emit('traduzione', testo);
@@ -343,7 +349,7 @@ function caricaProm(){
     document.getElementById("listaProm").appendChild(ulElement);
   });
 }
-
+//-----------------login----------------------------------------
 function goLogin(){
   document.getElementById("logSign").className="hidden";
   document.getElementById("template-log").className="visible";
@@ -353,7 +359,7 @@ function goSignUp(){
   document.getElementById("logSign").className="hidden";
   document.getElementById("template-Sign").className="visible";
 }
-//-------------
+//--------------------logout----------------------------------------
 function openLogout(){
   if (nTocchi%2==0) 
   {
@@ -380,7 +386,7 @@ function closeModal(){
 function logoutUser(){
   window.location.href= "../index.html";
 }
-
+//-------------modali-------------------------------------
 function openBigModale(e){
   answer("Ecco la risposta alla tua richiesta...");
   document.getElementById("testo").className="visisble";

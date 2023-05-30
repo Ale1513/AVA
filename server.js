@@ -9,12 +9,12 @@ const apiKeyTraduzione = process.env.API_KEY_TRANSLATE;
 const app = express();            
 const server1 = http.createServer(app);
 const { Server } = require("socket.io");
-//const { test } = require("node:test");
 const io = new Server(server1);
 
 let username;
 let password;
 
+//connessione al DB
 const connection = mysql.createConnection({
   host: 'srv013',
   user: 'ava',
@@ -139,7 +139,6 @@ io.on('connection', (socket) => {
   
 });
 
-//------------------------------------------------------traduci in inglese questa frase: sono Edoardo, un ragazzo di 19 anni che frequenta la scuola superiore
 
 function loginUser(valore1, valore2, callback){
   connection.query(`SELECT username, password FROM user WHERE username = '${valore1}'`,
